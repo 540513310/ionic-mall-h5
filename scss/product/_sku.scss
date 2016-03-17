@@ -1,0 +1,117 @@
+.sku-modal{
+  min-height: inherit;
+  top: auto;
+  bottom:0;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+.sku-detail{
+  .item-thumbnail-left{
+    .item-image{
+      top: 15px;
+    }
+  }
+  .item-thumbnail-left,
+  .item-thumbnail-left .item-content{
+    padding-top: 15px;
+  }
+  .item-close{
+    text-align: right;
+    color: #ff7a9a;
+    font-size: 16px;
+    margin-top: -5px;
+  }
+  .product-name{
+    font-size: 14px;
+  }
+  .row-price{
+    .price-txt{
+      font-size: 15px;
+    }
+  }
+  .sku-total-num{
+    text-align: right;
+    line-height: 25px;
+  }
+  .item-check-now{
+    padding: 5px 15px;
+    text-align: center;
+    button{
+      margin-right: 20px;
+      min-width: 100px;
+    }
+  }
+  .item-sku-filter{
+    background-color: #ededed;
+    padding-bottom: 2px;
+    .col-quantity{
+      float: right;
+    }
+    dl{
+      padding-bottom: 12px;
+      border-bottom: 1px solid #d5d5d5;
+      margin-bottom: 15px;
+
+    }
+    .filter-cates{
+      color: #a5a5a5;
+      font-size: 12px;
+      line-height: 12px;
+      margin-bottom: 8px;
+    }
+    .filter-items{
+      a{
+        font-size: 12px;
+        line-height: 14px;
+        text-align: center;
+        display: inline-block;
+        border: 1px solid #b2b2b2;
+        border-radius: 2px;
+        margin-right: 5px;
+        color: #7f7f7f;
+        padding: 2px 5px;
+        text-decoration: none;
+        &.active{
+          background-color: #fd84a1;
+          border-color: #fd84a1;
+          color: #fff;
+        }
+      }
+    }
+  }
+
+}
+
+.col-quantity{
+  border: 1px solid #b2b2b2;
+  height: 24px;
+  overflow: hidden;
+  width: 75px;
+  line-height: 22px;
+  button,
+  input{
+    display: inline-block;
+    height: 22px;
+    line-height: 22px;
+    font-size: 15px;
+    border: none;
+    margin: 0 -3px 0 0;
+    padding: 0;
+    background: none;
+    vertical-align: top;
+  }
+  button{
+    width: 22px;
+    border: none;
+  }
+  input{
+    width: 30px;
+    border: 1px solid #b2b2b2;
+    border-width: 0 1px;
+    line-height: 18px;
+    color: #ff0157;
+  }
+}

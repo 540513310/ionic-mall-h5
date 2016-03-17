@@ -1,0 +1,95 @@
+<ion-view view-title="订单详情">
+  <ion-content>
+    <ion-refresher pulling-icon="ion-ios-arrow-thin-down" pulling-text="下拉刷新" on-refresh="doRefresh()"> </ion-refresher>
+    <div class="order-detail">
+
+      <div class="status-tag"
+           ng-class="{ 'wait-pay' : order.status==1,
+           'wait-send' : order.status == 2 && order.distribution_status == 0,
+           'sended' : order.status == 2 && order.distribution_status > 0,
+           'finish' : order.status >= 5,
+           'closed' : order.status == 3 || order.status == 4 }" >
+        <p>{{ order.status_tag }}</p>
+      </div>
+
+      <div class="list delivery-address-postscript">
+        <a class="item delivery" href="#/app/delivery/trace/{{ order.id }}" ng-if="order.lastDelivery" >
+          <div class="arrow">
+            <h2>{{ order.lastDelivery.accept_station }}</h2>
+            <p>{{ order.lastDelivery.accept_time }}</p>
+          </div>
+        </a>
+        <div class="item address" href="#">
+          <div class="row">
+            <div class="col col-50">收货人: {{ order.accept_name }}</div>
+            <div class="col col-50 text-right">{{ order.mobile }}</div>
+          </div>
+          <p>收货地址: {{ order.address }}</p>
+        </div>
+        <div class="item postscript" href="#">
+          <h2>买家留言</h2>
+          <p>{{ order.postscript }}</p>
+        </div>
+      </div>
+
+      <div class="seller"><p>精品街特卖商城</p></div>
+
+      <div class="list goods-rows">
+        <div class="item item-thumbnail-left" ng-repeat="goods in order.order_goods_list">
+          <img ng-src="{{ goods.img }}">
+          <h2>{{ goods.goods_array.name }}</h2>
+          <div class="row">
+            <div class="col col-50"><p>{{ goods.goods_array.value }}</p></div>
+            <div class="col col-50 price text-right"><p><span>¥ {{ goods.real_price }}</span> x{{ goods.goods_nums }}件</p></div>
+          </div>
+          <div class="row">
+            <div class="col clearfix">
+              <a ng-href="#/app/refund/apply/{{ order.id }}/{{ goods.id }}"
+                 ng-if="goods.refundment.pay_status == undefined"
+                 class="button button-outline button-positive">申请退款</a>
+              <a ng-href="#/app/refund/detail/{{ order.id }}/{{ goods.goods_id }}/{{ goods.product_id }}"
+                 ng-if="goods.refundment.pay_status == 0"
+                 class="button button-outline button-positive">退款中</a>
+              <a ng-href="#/app/refund/detail/{{ order.id }}/{{ goods.goods_id }}/{{ goods.product_id }}"
+                 ng-if="goods.refundment.pay_status == 1"
+                 class="button button-outline button-positive">拒绝退款</a>
+              <a ng-href="#/app/refund/detail/{{ order.id }}/{{ goods.goods_id }}/{{ goods.product_id }}"
+                 ng-if="goods.refundment.pay_status == 2"
+                 class="button button-outline button-positive">已退款</a>
+              <a ng-href="#/app/refund/detail/{{ order.id }}/{{ goods.goods_id }}/{{ goods.product_id }}"
+                 ng-if="goods.refundment.pay_status == 3"
+                 class="button button-outline button-positive">同意退款</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="price-wrap">
+        <div class="price-tips row">
+          <div class="col col-50">运费</div>
+          <div class="col col-50 text-right">卖家包邮</div>
+        </div>
+        <div class="price-total row">
+          <div class="col col-50">实付费 (含运费)</div>
+          <div class="col col-50 text-right">¥ {{ order.total_goods_price }}</div>
+        </div>
+      </div>
+
+      <div class="extra">
+        <p>订单编号: {{ order.order_no }}</p>
+        <p>下单时间: {{ order.create_time }}</p>
+        <p ng-if="order.pay_time">付款时间: {{ order.pay_time }}</p>
+      </div>
+
+      <div style="height: 50px"></div>
+    </div>
+  </ion-content>
+
+  <div class="bar bar-footer order-detail-footer">
+    <div class="title">
+      <!-- 罗菲说返回个人中心 -->
+      <button ng-click="returnMobile()" class="button button-outline button-positive">返回个人中心</button>
+    </div>
+  </div>
+
+</ion-view>

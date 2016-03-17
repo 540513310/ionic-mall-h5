@@ -1,0 +1,23 @@
+body,.pane, .view{
+  background-color: $body-color;
+}
+.bar{
+  .title{
+    color: #80737b;
+  }
+}
+.txt-normal{
+  white-space: normal !important;
+}
+.tag-by{
+  color: #fa334f;
+  border: 1px solid #fa334f;
+  font-size: 12px;
+  line-height: 12px;
+  padding: 4px;
+  display: inline-block;
+  vertical-align: top;
+}
+.mb-15{
+  margin-bottom: 15px !important;
+}

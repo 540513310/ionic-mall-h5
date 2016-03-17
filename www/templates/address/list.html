@@ -1,0 +1,47 @@
+<div class="nav-bar-block">
+  <ion-header-bar align-title="center" class="bar bar-header disable-user-behavior">
+    <button ng-click="$ionicGoBack()" class="button back-button buttons button-clear header-item"><i
+        class="icon ion-ios-arrow-left"></i>
+    </button>
+    <div class="title title-center header-item">收货地址</div>
+    <div class="buttons buttons-right header-item">
+      <span class="right-buttons">
+        <a ng-href="#/address/edit/0" class="button button-icon button-clear " ng-if="showBtns.addressAdd">新增</a>
+      </span>
+    </div>
+  </ion-header-bar>
+</div>
+<div class="scroll-content has-header ionic-scroll overflow-scroll">
+
+  <div class="address-list">
+
+    <ion-list>
+      <ion-item ng-repeat="item in userInfo.address_list">
+
+        <div class="address-info" ng-click="chooseAddress(item.address_id)">
+          <div class="row">
+            <div class="col col-50"><h3>收货人: {{ item.accept_name }}</h3></div>
+            <div class="col col-50 text-right"><h3>{{ item.mobile }}</h3></div>
+          </div>
+          <div class="row">
+            <div class="col">{{ item.address }}</div>
+          </div>
+        </div>
+
+        <div class="row address-op">
+          <div class="col col-50" ng-click="setDefault(item.address_id)" ng-class="{ active : item.default }">设置为默认地址
+          </div>
+          <div class="col col-50 text-right">
+            <a href="#/address/edit/{{ item.address_id }}" class="button button-icon ion-edit"></a>
+            <span></span>
+            <a ng-click="deleteAddress(item.address_id)" class="button button-icon ion-ios-trash"></a>
+          </div>
+        </div>
+
+      </ion-item>
+    </ion-list>
+
+  </div>
+</div>
+
+

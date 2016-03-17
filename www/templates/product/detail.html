@@ -1,0 +1,107 @@
+<div class="nav-bar-block" nav-bar="active">
+  <ion-header-bar align-title="center" class="bar bar-header disable-user-behavior">
+    <button ng-click="$ionicGoBack()" class="button back-button buttons  button-clear header-item"><i
+        class="icon ion-ios-arrow-left"></i>
+      </button>
+    <div class="title title-center header-item" style="left: 45px; right: 45px;">商品详情</div>
+    <div class="buttons buttons-right header-item">
+      <span class="right-buttons">
+        <a ng-click="gotoShopCart();" class="button button-icon button-clear ion-ios-cart-outline"></a>
+      </span>
+    </div>
+  </ion-header-bar>
+</div>
+<div class="scroll-content has-header ionic-scroll overflow-scroll">
+  <div class="product-detail">
+    <div class="item item-image">
+      <img ng-src="{{ productInfo.img}}">
+    </div>
+
+    <div class="item item-product-desc">
+      <div class="row row-no-padding row-pro-name">
+        <div class="col">
+          <h2 class="txt-normal" ng-non-bindable="productInfo.name">
+          </h2>
+        </div>
+        <!--<div class="col col-15 col-center"><a href="" class="add-to-favorite"><i class="ion-ios-heart"></i></a></div>-->
+      </div>
+
+      <div class="row row-no-padding row-price">
+        <div class="col" ng-if="multiple"><span class="price-txt">￥{{ productInfo.price_range.min_sell_price + '-' + productInfo.price_range.max_sell_price}}</span>
+          <span class="tag-by">包邮</span></div>
+        <div class="col" ng-if="!multiple"><span class="price-txt">￥{{ productInfo.sell_price}}</span> <span
+            class="tag-by">包邮</span></div>
+      </div>
+
+      <div class="row row-no-padding row-pro-count">
+        <div class="col" ng-if="multiple"><span class="o-price">￥{{ productInfo.market_price}}</span> <span>{{ productInfo.price_range.min_sell_price/productInfo.price_range.min_market_price*10 }}折</span>
+        </div>
+        <div class="col" ng-if="!multiple"><span class="o-price">￥{{ productInfo.market_price}}</span> <span>{{ productInfo.sell_price/productInfo.market_price*10 }}折</span>
+        </div>
+        <div class="col">{{productInfo.sale}}人已买</div>
+      </div>
+
+    </div>
+    <!--
+    /*
+    * on sale hide
+    */
+      <div class="item row-wrap on-sale">
+    <div class="row row-no-padding">
+      <div class="col col-25">店铺优惠券</div>
+      <div class="col">
+        <span class="sale-tag sale-1">
+          <span>5元通用</span>
+        </span>
+        <span class="sale-tag sale-2">
+          <span>199减10</span>
+        </span>
+        <span class="sale-tag sale-3">
+          <span>299减50</span>
+        </span>
+      </div>
+    </div>
+    <div class="row row-no-padding">
+      <div class="col col-25">限时特惠</div>
+      <div class="col">剩余4天21小时46分21秒</div>
+    </div>
+    <div class="row row-no-padding">
+      <div class="col col-25">店铺优惠</div>
+      <div class="col">满99元，享包邮</div>
+    </div>
+    <div class="row row-no-padding">
+      <div class="col col-25">可享优惠</div>
+      <div class="col">积分抵2.00元 /首单支付返5元现金/收件返利/好评返现3元</div>
+    </div>
+    </div>
+    -->
+  </div>
+  <div class="more-product-detail">
+    <div class="title-line">
+      <hr/>
+      <span class="title-cont">继续拖动，查看图文详情</span>
+    </div>
+
+    <tabs>
+      <pane title="图文详情">
+        <div class="item-detail" ng-bind-html="productInfo.content"></div>
+      </pane>
+      <pane title="商品信息">
+        <div class="item-detail item-detail-info">
+        </div>
+      </pane>
+    </tabs>
+  </div>
+</div>
+
+<!-- 加入购物车 -->
+<div class="quick-control row">
+  <div class="col col-33">
+    <button class="button button-icon ion-chatbubble-working"></button>
+    <button class="button button-icon ion-android-share-alt" ng-click="showShare()"></button>
+  </div>
+  <div class="col col-67">
+    <button class="button button-outline button-positive" ng-click="addCart()">加入购物车</button>
+    <button class="button button-positive" ng-click="checkNow()">立即购买</button>
+  </div>
+</div>

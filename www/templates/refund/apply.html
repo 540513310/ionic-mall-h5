@@ -1,0 +1,38 @@
+<ion-view view-title="申请退款">
+  <ion-content>
+    <div class="refund-apply">
+      <div class="explain">
+        <h4>退款说明</h4>
+        <p>如因商品质量问题、商品缺货、取消订单、配送异常等原因，您的订单需要进行退款，那么请您联系在线客服，告知订单编号及退款原因，申请退款，需退回的请寄回商品，在收到商品后，我们会及时为您办理退款。</p>
+      </div>
+
+      <div class="list">
+
+        <div class="item item-divider">退款原因 :</div>
+
+        <label class="item item-input">
+          <textarea placeholder="请填写退款原因" ng-model="form.content"></textarea>
+        </label>
+
+        <div class="item item-divider">申请退款金额 :</div>
+
+        <div class="item item-avatar item-icon-right" ng-click="refundAll()">
+          <img src="/img/refund/icon_all.png">
+          <h2>全额退款</h2>
+          <p>现金将退入支付账户</p>
+          <i class="icon ion-ios-arrow-right"></i>
+        </div>
+
+        <div class="item item-avatar item-icon-right" ng-click="refundPart()">
+          <img src="/img/refund/icon_part.png">
+          <h2>沟通申请退款</h2>
+          <p>请与卖家沟通后申请, 现金将退入支付账户</p>
+          <i class="icon ion-ios-arrow-right"></i>
+        </div>
+
+      </div>
+
+    </div>
+
+  </ion-content>
+</ion-view>

@@ -1,0 +1,53 @@
+<div class="seller row">
+  <a href="#" class="col col-50">{{ item.seller.true_name }} &nbsp;<i class="icon ion-ios-arrow-right"></i></a>
+  <div class="status-tag col col-50 clearfix"
+       ng-class="{
+       'wait-pay' : item.status==1,
+       'wait-send' : item.status == 2 && item.distribution_status == 0,
+       'sended' : item.status == 2 && item.distribution_status > 0,
+       'finish' : item.status >= 5,
+       'closed' : item.status == 3 || item.status == 4
+       }">
+    <div class="">{{ item.status_tag }}</div>
+  </div>
+</div>
+
+<div class="goods-wrap">
+  <div class="row goods" ng-repeat="goods in item.order_goods_list">
+    <div class="col col-25 img">
+      <img ng-src="{{ goods.img }}" />
+    </div>
+    <div class="col col-75 info">
+      <h3>{{ goods.goods_array.name }}</h3>
+      <p>{{ goods.goods_array.value }}</p>
+      <div class="row extra">
+        <div class="col col-50 price">¥ {{ goods.real_price }}</div>
+        <div class="col col-50 nums">x{{ goods.goods_nums }}件</div>
+      </div>
+      <div class="refund-notice" ng-if="goods.refundment.pay_status == 0"><span class="notice"></span>退款中</div>
+      <div class="refund-notice" ng-if="goods.refundment.pay_status == 1"><span class="notice"></span>拒绝退款</div>
+      <div class="refund-notice" ng-if="goods.refundment.pay_status == 3"><span class="notice"></span>同意退款</div>
+      <div class="refund-notice" ng-if="goods.refundment.pay_status == 2"><span class="success"></span>退款成功</div>
+    </div>
+  </div>
+</div>
+
+<div class="statistic">
+  <p>共 {{ item.total_goods_num }} 件商品 合计: <span>¥ {{ item.total_goods_price }}</span></p>
+</div>
+
+<div class="row buttons">
+  <div class="col col-25 left-btn">
+    <a href="#/order/detail/{{ item.id }}" class="button button-outline button-dark">订单详情</a>
+  </div>
+  <div class="col col-75 right-btn clearfix">
+    <button ng-click="buy(item.id)" class="button button-outline button-positive" ng-if="item.status == 1">付款</button>
+    <button ng-click="cancel(item.id)" class="button button-outline button-dark" ng-if="item.status == 1">取消订单</button>
+
+    <button ng-click="confirm(item.id, item.total_goods_price)" class="button button-outline button-positive" ng-if="item.status == 2 && item.distribution_status > 0">确认收货</button>
+    <a href="#/delivery/trace/{{ item.id }}" class="button button-outline button-dark" ng-if="item.status == 2 && item.distribution_status > 0">查看物流</a>
+
+    <button ng-click="rebuy(item.id)" class="button button-outline button-positive" ng-if="item.status >= 3">重新购买</button>
+    <button ng-click="remove(item.id)" class="button button-outline button-dark" ng-if="item.status >= 3">删除订单</button>
+  </div>
+</div>

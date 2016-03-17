@@ -1,0 +1,202 @@
+.order-detail {
+
+  // 顶部状态标签
+  .status-tag {
+    padding-left: 10px;
+    p {
+      display: block;
+      height: 30px;
+      line-height: 30px;
+      font-size: 12px;
+      color: white;
+      background: url("/img/order/icon_status_tag.png") no-repeat left center;
+      background-size: 16px 16px;
+      margin: 0;
+      padding-left: 22px;
+    }
+
+    &.wait-pay { background-color: #ff7a9a; }
+    &.wait-send { background-color: #f7ade4; }
+    &.sended { background-color: #99d572; }
+    &.finish { background-color: #ff9797; }
+    &.closed { background-color: #fac05f; }
+  }
+
+  // 物流 发货地址 买家留言
+  .delivery-address-postscript {
+    background-color: white;
+    margin-bottom: 10px;
+    .item {
+      padding-right: 0;
+      padding-left: 32px;
+    }
+
+    .delivery {
+      background: url("/img/order/icon_delivery.png") no-repeat 10px center;
+      background-size: 16px 16px;
+      .arrow {
+        background: url("/img/common/gray_arrow.png") no-repeat right 10px center;
+        background-size: 10px 17px;
+        padding-right: 32px;
+        h2 {
+          font-size: 12px;
+          color: #569f5f
+        }
+        p {
+          font-size: 11px;
+        }
+      }
+    }
+
+    .address {
+      background: url("/img/order/icon_address.png") no-repeat 10px center;
+      background-size: 16px 16px;
+      .row {
+        padding: 0;
+        padding-right: 10px;
+        .col {
+          padding: 0;
+          font-size: 12px;
+        }
+      }
+      p {
+        font-size: 12px;
+        white-space: normal;
+        padding-right: 10px;
+      }
+    }
+
+    .postscript {
+      background: url("/img/order/icon_postscript.png") no-repeat 10px center;
+      background-size: 16px 16px;
+      h2 {
+        font-size: 12px;
+      }
+      p {
+        font-size: 11px;
+        white-space: normal;
+        padding-right: 10px;
+      }
+    }
+  }
+
+  // 店家顶部
+  .seller {
+    border-top: 1px solid #ddd;
+    background: url("/img/order/icon_seller.png") no-repeat 10px center;
+    background-size: 16px 16px;
+    background-color: white;
+    p {
+      padding: 0;
+      margin: 0;
+      display: block;
+      height: 26px;
+      background: url("/img/common/gray_arrow.png") no-repeat right 10px center;
+      background-size: 10px 17px;
+      padding-right: 32px;
+      line-height: 26px;
+      padding-left: 32px;
+      color: $positive;
+    }
+  }
+
+  .goods-rows {
+    margin-bottom: 0;
+    .item {
+      background-color: transparent;
+      border-color: white;
+      h2 {
+        padding-top: 5px;
+        font-size: 12px;
+        white-space: normal;
+      }
+      .row {
+        padding: 0;
+        .col {
+          padding: 0;
+          p {
+            font-size: 11px;
+            white-space: normal;
+          }
+          .price {
+            font-size: 13px;
+          }
+          span {
+            font-size: 15px;
+          }
+        }
+        .button {
+          float: right;
+          height: 25px;
+          min-height: 25px;
+          line-height: 25px;
+          font-size: 12px;
+          width: 70px;
+          min-width: 70px;
+          font-size: 11px;
+          text-align: center;
+          padding: 0;
+          margin-top: 8px;
+          border-color: red;
+          color: red;
+          &.activated {
+            background-color: red;
+            color: white;
+            border-color: red;
+          }
+        }
+      }
+    }
+  }
+
+  .price-wrap {
+    padding: 7px 10px;
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+
+    .price-tips, .price-total {
+      padding: 0;
+      .col {
+        padding: 0;
+        font-size: 12px;
+        line-height: 25px;
+      }
+    }
+
+    .price-total {
+      .col:last-child {
+        color: $positive;
+        font-size: 16px;
+      }
+    }
+  }
+
+  .extra {
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    background-color: white;
+    padding: 7px 10px;
+    p {
+      margin: 0;
+      line-height: 22px;
+    }
+  }
+}
+
+.order-detail-footer {
+  .title {
+    .button {
+      height: 25px;
+      min-height: 25px;
+      line-height: 25px;
+      font-size: 12px;
+      width: 100px;
+      min-width: 100px;
+      font-size: 11px;
+      text-align: center;
+      padding: 0;
+      margin-top: 8px;
+    }
+  }
+}

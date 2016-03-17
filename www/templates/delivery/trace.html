@@ -1,0 +1,21 @@
+<div class="nav-bar-block">
+  <ion-header-bar align-title="center" class="bar bar-header disable-user-behavior">
+    <button ng-click="$ionicGoBack()" class="button back-button buttons button-clear header-item"><i
+        class="icon ion-ios-arrow-left"></i>
+    </button>
+    <div class="title title-center header-item">物流跟踪</div>
+  </ion-header-bar>
+</div>
+<div class="scroll-content has-header ionic-scroll overflow-scroll">
+
+    <div class="delivery-trace">
+
+      <div class="list" ng-repeat="row in data">
+        <li class="item" ng-repeat="trace in row.traces">
+          <h2>{{ trace.accept_station }}</h2>
+          <p>{{ trace.accept_time }}</p>
+        </li>
+      </div>
+    </div>
+
+</div>

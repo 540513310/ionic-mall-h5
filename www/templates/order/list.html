@@ -1,0 +1,120 @@
+<div class="nav-bar-block">
+  <ion-header-bar align-title="center" class="bar bar-header disable-user-behavior">
+    <button ng-click="$ionicGoBack()" class="button back-button buttons button-clear header-item"><i
+        class="icon ion-ios-arrow-left"></i>
+    </button>
+    <div class="title title-center header-item">我的订单</div>
+  </ion-header-bar>
+</div>
+<div class="scroll-content has-header ionic-scroll overflow-scroll order-list">
+    <ion-tabs class="tabs-top tabs-stable ">
+      <ion-tab title="全部" class="positive" on-select="onTabSelected(0)">
+        <ion-nav-view name="tab-tab1"">
+          <ion-content overflow-scroll="true" >
+              <a class="item item-avatar item-icon-right" href="#">
+                <img src="/img/product/tb.png">
+
+                <h2>淘宝订单</h2>
+
+                <p>找不到订单, 来这里看看哦~</p>
+                <i class="icon ion-ios-arrow-right"></i>
+              </a>
+
+              <div class="divide-line">
+                <div></div>
+                <span>精品街商城订单</span>
+              </div>
+
+              <div class="order-record">
+                <ion-item ng-repeat="item in ordersList[0]" ng-include="'/templates/order/list.data.html'"></ion-item>
+              </div>
+
+            </ion-list>
+            <ion-infinite-scroll immediate-check="false" on-infinite="loadMore(0)" distance="10px"></ion-infinite-scroll>
+          </ion-content>
+        </ion-nav-view>
+      </ion-tab>
+
+      <ion-tab title="待付款" badge="waitPayCount" on-select="onTabSelected(1)">
+        <ion-nav-view name="tab-tab2">
+          <ion-content overflow-scroll="true">
+              <a class="item item-avatar item-icon-right" href="#">
+                <img src="/img/product/tb.png">
+
+                <h2>淘宝订单</h2>
+
+                <p>找不到订单, 来这里看看哦~</p>
+                <i class="icon ion-ios-arrow-right"></i>
+              </a>
+
+              <div class="divide-line">
+                <div></div>
+                <span>精品街商城订单</span>
+              </div>
+
+              <div class="order-record">
+                <ion-item ng-repeat="item in ordersList[1]" ng-include="'/templates/order/list.data.html'"></ion-item>
+              </div>
+            </ion-list>
+            <ion-infinite-scroll immediate-check="false" on-infinite="loadMore(1)" distance="10px"></ion-infinite-scroll>
+          </ion-content>
+        </ion-nav-view>
+      </ion-tab>
+
+      <ion-tab title="待收货" badge="waitGoodsCount" on-select="onTabSelected(2)">
+        <ion-nav-view name="tab-tab2">
+          <ion-content overflow-scroll="true">
+            <ion-list>
+              <a class="item item-avatar item-icon-right" href="#">
+                <img src="/img/product/tb.png">
+
+                <h2>淘宝订单</h2>
+
+                <p>找不到订单, 来这里看看哦~</p>
+                <i class="icon ion-ios-arrow-right"></i>
+              </a>
+
+              <div class="divide-line">
+                <div></div>
+                <span>精品街商城订单</span>
+              </div>
+
+              <div class="order-record">
+                <ion-item ng-repeat="item in ordersList[2]" ng-include="'/templates/order/list.data.html'"></ion-item>
+              </div>
+            </ion-list>
+            <ion-infinite-scroll immediate-check="false" on-infinite="loadMore(2)" distance="10px"></ion-infinite-scroll>
+          </ion-content>
+        </ion-nav-view>
+      </ion-tab>
+
+      <ion-tab title="交易完成" on-select="onTabSelected(3)">
+        <ion-nav-view name="tab-tab2">
+          <ion-content overflow-scroll="true">
+            <ion-list>
+              <a class="item item-avatar item-icon-right" href="#">
+                <img src="/img/product/tb.png">
+
+                <h2>淘宝订单</h2>
+
+                <p>找不到订单, 来这里看看哦~</p>
+                <i class="icon ion-ios-arrow-right"></i>
+              </a>
+
+              <div class="divide-line">
+                <div></div>
+                <span>精品街商城订单</span>
+              </div>
+
+              <div class="order-record">
+                <ion-item ng-repeat="item in ordersList[3]" ng-include="'/templates/order/list.data.html'"></ion-item>
+              </div>
+            </ion-list>
+            <ion-infinite-scroll immediate-check="false" on-infinite="loadMore(3)" distance="10px"></ion-infinite-scroll>
+          </ion-content>
+        </ion-nav-view>
+      </ion-tab>
+
+    </ion-tabs>
+</div>
+

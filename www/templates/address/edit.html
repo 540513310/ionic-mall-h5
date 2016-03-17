@@ -1,0 +1,70 @@
+<div class="nav-bar-block">
+  <ion-header-bar align-title="center" class="bar bar-header disable-user-behavior">
+    <button ng-click="$ionicGoBack()" class="button back-button buttons button-clear header-item"><i
+        class="icon ion-ios-arrow-left"></i>
+    </button>
+    <div class="title title-center header-item">{{ id == 0 ? '新增' : '修改' }}收货地址</div>
+    <div class="buttons buttons-right header-item">
+      <span class="right-buttons">
+        <a ng-click="addressSave()" class="button button-icon button-clear " ng-if="showBtns.addressSave">保存</a>
+      </span>
+    </div>
+  </ion-header-bar>
+</div>
+<div class="scroll-content has-header ionic-scroll overflow-scroll">
+  <div class="address-edit">
+
+    <div class="list">
+      <label class="item item-input">
+        <span class="input-label">收货人</span>
+        <input type="text" ng-model="address.accept_name">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">邮编</span>
+        <input type="text" ng-model="address.zip">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">手机号码</span>
+        <input type="text" ng-model="address.mobile">
+      </label>
+      <label class="item item-input item-select">
+        <span class="input-label">省份</span>
+        <select ng-model="address.province"
+                ng-options="p.area_id as p.area_name for p in province_list"
+                ng-change="getArea(address.province, 'city', true)">
+        </select>
+      </label>
+      <label class="item item-input item-select">
+        <span class="input-label">城市</span>
+        <select ng-model="address.city"
+                ng-options="p.area_id as p.area_name for p in city_list"
+                ng-change="getArea(address.city, 'area', true)">
+        </select>
+      </label>
+      <label class="item item-input item-select">
+        <span class="input-label">区域</span>
+        <select ng-model="address.area"
+                ng-options="p.area_id as p.area_name for p in area_list">
+        </select>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">详细地址</span>
+        <input type="text" ng-model="address.address">
+      </label>
+
+      <label class="item item-input item-toggle">
+        <span class="input-label">设置为默认</span>
+
+        <label class="toggle toggle-assertive">
+          <input type="checkbox" ng-model="address.default" ng-checked="address.default">
+
+          <div class="track">
+            <div class="handle"></div>
+          </div>
+        </label>
+      </label>
+
+    </div>
+
+  </div>
+</div>

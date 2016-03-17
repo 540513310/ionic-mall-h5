@@ -1,0 +1,47 @@
+
+.refund-apply {
+  .explain {
+    background-color: $positive;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    h4 {
+      margin: 0;
+      text-align: center;
+      color: white;
+    }
+    p {
+      padding-top: 5px;
+      margin: 0;
+      color: white;
+    }
+  }
+
+  .list {
+    .item {
+      textarea {
+        height: 80px;
+      }
+    }
+    .item-avatar {
+      padding-left: 53px;
+      min-height: 53px;
+      img {
+        width: 33px;
+        height: 33px;
+      }
+
+      h2 {
+        font-size: 13px;
+      }
+      p {
+        font-size: 12px;
+        white-space: normal;
+      }
+      .ion-ios-arrow-right {
+        font-size: 20px;
+        color: #ccc;
+      }
+    }
+  }
+}
