@@ -15,8 +15,15 @@ function MobileToH5Request(params) {
     $rootScope.paymentFailure(params);
     return "{}";
   };
+  this.androidHardback = function(){
+    var $body = angular.element(document.body);
+    var $rootScope = $body.scope().$root;
+    $rootScope.goStateBack();
+    return "{}";
+  }
 }
 Ponto.PontoBaseHandler.derive(MobileToH5Request);
 MobileToH5Request.getInstance = function(){
   return new MobileToH5Request();
 };
+

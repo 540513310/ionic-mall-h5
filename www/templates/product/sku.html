@@ -1,48 +1,63 @@
 <ion-modal-view class="sku-modal">
-    <section ng-controller="skuCtrl" class="sku-detail">
-        <div class="list">
-            <div class="item item-thumbnail-left">
-                <div class="item-close">
-                    <i class="ion-close" ng-click="closeSku()"></i>
-                </div>
-                <div class="item-image"><img ng-src="{{ productInfo.img }}" alt=""/></div>
-                <h2 class="txt-normal mb-15 product-name">{{ productInfo.name}}</h2>
-                <div class="row row-no-padding row-price">
-                    <div class="col col-66" ng-if="multiple"><span class="price-txt">￥{{ productInfo.price_range.min_sell_price + '-' + productInfo.price_range.max_sell_price}}</span></div>
-                    <div class="col col-66" ng-if="!multiple"><span class="price-txt">￥{{ productInfo.sell_price}}</span></div>
-                    <div class="col col-34 sku-total-num">库存 {{ productInfo.store_nums }}</div>
-                </div>
-            </div>
-            <div class="item item-sku-filter">
-                <dl ng-repeat="spec in specArray">
-                    <dt class="filter-cates">{{ spec.name }}</dt>
-                    <dd class="filter-items"><span ng-repeat="item in spec.value.split(',')"><a href="" ng-click="changeItem(spec.id,item,$index)" ng-class="$index == spec.clicked ? 'active':''">{{ item }}</a></span></dd>
-                </dl>
-                <div class="row row-no-padding">
-                    <div class="col">购买数量</div>
-                    <div class="col ">
-                        <div class="col-quantity">
-                            <button
-                                    class="btn btn-inverse" type="button"
-                                    ng-disabled="item.quantity <= 1"
-                                    ng-click="addItem(-1)"><i class="ion-minus"></i></button>
-                            <input
-                                    class="span3 text-center" type="tel"
-                                    ng-model="item.quantity"
-                                    ng-change="saveItems()" />
-                            <button
-                                    class="btn btn-success" type="button"
-                                    ng-disabled="item.quantity >= 1000"
-                                    ng-click="addItem(1)"><i class="ion-plus"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="item item-check-now" ng-switch="buyNow">
-                <button ng-switch-when="1" class="button button-outline button-positive" ng-click="addToCart()">加入购物车</button>
-                <button ng-switch-when="2" class="button button-positive" ng-click="goCheckNow()">确认</button>
-                <button ng-switch-when="3" class="button button-positive" ng-click="addToCart(editCartId,editGoodsId)">确认</button>
-            </div>
+  <section ng-controller="skuCtrl" class="sku-detail">
+    <div class="item item-thumbnail-left">
+      <div class="item-close" ng-click="closeSku()">
+        <i class="ion-close"></i>
+      </div>
+      <div class="item-image"><img ng-src="{{ productCurrentImg || productInfo.img }}" alt=""/></div>
+      <h2 class="txt-normal mb-15 product-name">{{ productInfo.name}}</h2>
+
+      <div class="row row-no-padding row-price">
+        <div class="col col-66"><span class="price-txt">￥{{ productInfo.current_price}}</span></div>
+        <div class="col col-34 sku-total-num">库存 {{ productInfo.current_store_nums }}</div>
+      </div>
+    </div>
+    <div class="s-content">
+      <div class="item-sku-filter">
+        <div ui-sku
+             init-sku="{{initSku}}"
+             split-str="#"
+             sku-data="skuInfo"
+             spec-map="specMap"
+             on-ok="setCurrentProductInfo($event,key)">
+
+          <dl ng-repeat="(k,spec) in specMap">
+            <dt class="filter-cates" ng-bind="k"></dt>
+            <dd class="filter-items clearfix">
+            <span ng-repeat="item in spec">
+              <a href="" ng-class="{'active': keyMap[item].selected, 'disabled': keyMap[item].disabled}" ng-click="onSelect(keyMap[item].name)" ng-bind="item"></a>
+            </span>
+            </dd>
+          </dl>
         </div>
-    </section>
+
+        <div class="row row-quantity row-no-padding">
+          <div class="col">购买数量</div>
+          <div class="col ">
+            <div class="col-quantity">
+              <button
+                  class="btn btn-inverse" type="button"
+                  ng-disabled="item.quantity <= 1"
+                  ng-click="addItem(-1)"><i class="ion-minus"></i></button>
+              <input
+                  type="number"
+                  class="span3 text-center"
+                  ng-model="item.quantity"/>
+              <button
+                  class="btn btn-success" type="button"
+                  ng-disabled="item.quantity >= 500"
+                  ng-click="addItem(1)"><i class="ion-plus"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item-check-now" ng-switch="buyNow">
+      <button ng-switch-when="1" class="button button-outline button-positive" ng-click="addToCart()">加入购物车</button>
+      <button ng-switch-when="2" class="button button-positive" ng-click="goCheckNow()">确认</button>
+      <button ng-switch-when="3" class="button button-positive" ng-click="addToCart(editCartId,editGoodsId)">确认
+      </button>
+    </div>
+  </section>
 </ion-modal-view>

@@ -1,5 +1,19 @@
+.empty-cart{
+  background: url(#{$img-url}cart/shoppingcart_none.png) no-repeat center center;
+  display: block;
+  margin: 0 auto;
+  width: 200px;
+  height: 164px;
+  -webkit-background-size: 200px 164px;
+  background-size: 200px 164px;
+}
+.button-edit{
+  color: $dark !important;
+}
 .cart-list {
   margin: 6px 0 0;
+
+
 
   .item-thumbnail-left {
     min-height: 80px;
@@ -13,6 +27,8 @@
         .goods-spec{
           line-height: 14px;
           margin-top: 5px;
+          display: block;
+          min-height: 28px;
           i{
             float: right;
           }
@@ -27,6 +43,7 @@
             line-height: 30px;
           }
           input{
+            border-radius: 0;
             border-color: #fff;
             height: 30px;
             line-height: 30px;
@@ -42,6 +59,27 @@
           border-radius: 0;
           right: 0;
           min-width: 60px;
+        }
+      }
+      .invalid {
+        h2 {
+          font-size: 14px;
+          max-height: 30px;
+          line-height: 15px;
+          text-decoration: none;
+          color: #666;
+          display: block;
+        }
+        p {
+          -webkit-text-size-adjust:none;
+          font-size: 12px;
+          span {
+            background-color: #aaaaaa;
+            padding: 2px 5px;
+            border-radius: 5px;
+            color: white;
+            font-size: 12px;
+          }
         }
       }
     }
@@ -92,6 +130,8 @@
           border-left: 1px solid #d4d4d4;
           a {
             color: #666;
+            display: block;
+            text-align: right;
             text-decoration: none;
           }
         }
@@ -169,6 +209,9 @@
 }
 
 .list-tabao {
+  &.list {
+    margin-bottom: 0px;
+  }
   margin-top: 6px;
   .item{
     border-width: 0 0 1px !important;
@@ -190,5 +233,51 @@
   .icon {
     font-size: 14px;
     color: #a5a5a5;
+  }
+}
+
+.group-status{
+  background-color: #ff2a7a;
+  padding: 2px;
+  margin: 7px 0;
+  .share-group{
+    display: block;
+    margin: 10px 0 0;
+    img{
+      max-width: 100%;
+    }
+//    width: 120px;
+//    height: 30px;
+//    background-image: url(#{$img-url}order/share_gp.png);
+//    -webkit-background-size: 120px 30px;
+//    background-size: 120px 30px;
+  }
+  .col{
+    padding: 10px;
+  }
+  .col1{
+    border-right: 1px solid #bb0143;
+  }
+  .col2{
+    border-left: 1px solid #ff5e9a;
+    color: #fff;
+    flex: 0 0 60%;
+    max-width: 60%;
+    h2{
+      font-size: 14px;
+      font-weight: normal;
+      color: #fff;
+      margin: 0;
+    }
+    p{
+      font-size: 12px;
+      line-height: 14px;
+      margin: 0;
+      -webkit-transform: scale(.8);
+      transform: scale(.8);
+      -webkit-transform-origin:0 ;
+      transform-origin:0 ;
+
+    }
   }
 }

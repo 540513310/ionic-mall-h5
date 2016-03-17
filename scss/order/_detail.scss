@@ -25,10 +25,12 @@
   // 物流 发货地址 买家留言
   .delivery-address-postscript {
     background-color: white;
+    padding: 0;
     margin-bottom: 10px;
     .item {
       padding-right: 0;
       padding-left: 32px;
+      border-width: 0 0 1px;
     }
 
     .delivery {
@@ -57,6 +59,13 @@
         .col {
           padding: 0;
           font-size: 12px;
+          h3 {
+            font-weight: normal;
+            font-size: 12px;
+            color: #444;
+            display: block;
+            max-width: 120px;
+          }
         }
       }
       p {
@@ -102,13 +111,29 @@
 
   .goods-rows {
     margin-bottom: 0;
+    padding: 0;
     .item {
+      margin: 0;
       background-color: transparent;
+      border-width: 0 0 1px;
       border-color: white;
       h2 {
         padding-top: 5px;
         font-size: 12px;
         white-space: normal;
+      }
+      .invalid {
+        p {
+          -webkit-text-size-adjust:none;
+          font-size: 12px;
+          span {
+            background-color: #aaaaaa;
+            padding: 2px 5px;
+            border-radius: 5px;
+            color: white;
+            font-size: 12px;
+          }
+        }
       }
       .row {
         padding: 0;
@@ -184,6 +209,24 @@
   }
 }
 
+.contact-seller{
+  margin-top: 20px;
+  text-align: right;
+  .button{
+    border-color: #ccc;
+    padding: 0 15px;
+    border-radius: 15px;
+    min-height: inherit;
+    line-height: 20px;
+    font-size: 12px;
+    i{
+      font-size: 12px;
+      line-height: 20px;
+      color: $positive;
+      margin-right: 5px;
+    }
+  }
+}
 .order-detail-footer {
   .title {
     .button {

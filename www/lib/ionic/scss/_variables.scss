@@ -80,7 +80,7 @@ $button-icon-size:                24px !default;
 $button-large-font-size:          20px !default;
 $button-large-height:             54px !default;
 $button-large-padding:            16px !default;
-$button-large-icon-size:          28px !default;
+$button-large-icon-size:          30px !default;
 
 $button-small-font-size:          12px !default;
 $button-small-height:             28px !default;
@@ -94,7 +94,7 @@ $button-bar-button-icon-size:     20px !default;
 
 $button-light-bg:                 $light !default;
 $button-light-text:               #444 !default;
-$button-light-border:             #ddd !default;
+$button-light-border:             #E8E8E8 !default;
 $button-light-active-bg:          #fafafa !default;
 $button-light-active-border:      #ccc !default;
 
@@ -157,7 +157,7 @@ $button-default-active-border:    $button-stable-active-border !default;
 // -------------------------------
 
 $bar-height:                      44px !default;
-$bar-title-font-size:             15px !default;
+$bar-title-font-size:             14px !default;
 $bar-padding-portrait:            5px !default;
 $bar-padding-landscape:           5px !default;
 $bar-transparency:                1 !default;
@@ -608,7 +608,7 @@ $sheet-border-radius:             4px !default;
 
 $sheet-options-bg-color:          #f1f2f3 !default;
 $sheet-options-bg-active-color:   #e4e5e7 !default;
-$sheet-options-text-color:        #007aff !default;
+$sheet-options-text-color:        #333 !default;
 $sheet-options-border-color:      #d1d3d6 !default;
 
 
@@ -633,9 +633,9 @@ $popup-button-min-height:         45px !default;
 
 $loading-text-color:              #fff !default;
 $loading-bg-color:                rgba(0,0,0,0.7) !default;
-$loading-padding:                 2px 6px !default;
+$loading-padding:                 6px 20px !default;
 $loading-border-radius:           5px !default;
-$loading-font-size:               12px !default;
+$loading-font-size:               14px !default;
 
 $loading-backdrop-fadein-duration:0.1s !default;
 $loading-backdrop-bg-color:       rgba(0,0,0,0.4) !default;

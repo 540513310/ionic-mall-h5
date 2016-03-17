@@ -1,0 +1,54 @@
+<div class="nav-bar-block">
+  <ion-header-bar align-title="center" class="bar bar-header disable-user-behavior">
+    <button ng-click="goStateBack()" class="button back-button buttons button-clear header-item"><i
+        class="icon ion-ios-arrow-left"></i>
+    </button>
+    <div class="title title-center header-item">评价宝贝</div>
+  </ion-header-bar>
+</div>
+  <ion-content class="has-footer" overflow-scroll="true">
+      <div class="list grade-product" ng-class="{'last': $last}" ng-repeat="goods in commentList track by $index">
+        <div class="item item-thumbnail-left">
+          <div class="item-image">
+            <img ng-src="{{ goods.img }}">
+          </div>
+          <h2 class="txt-normal">{{ goods.name }}</h2>
+          <p class="price">¥ {{ goods.real_price }}</p>
+        </div>
+        <div class="item grade-group ">
+          <div class="row row-no-padding">
+            <div class="col col-25">商品质量</div>
+            <div class="col">
+              <rating readonly="goods.status" ng-model="goods.quality_point" max="max"></rating>
+            </div>
+          </div>
+          <div class="row row-no-padding">
+            <div class="col col-25">发货速度</div>
+            <div class="col">
+              <rating readonly="goods.status" ng-model="goods.speed_point" max="max"></rating>
+            </div>
+          </div>
+          <div class="row row-no-padding">
+            <div class="col col-25">服务态度</div>
+            <div class="col">
+              <rating readonly="goods.status" ng-model="goods.service_point" max="max"></rating>
+            </div>
+          </div>
+        </div>
+        <div class="item item-comment" ng-switch="goods.status">
+          <div class="commented" ng-switch-when="1">
+            <div class="row row-no-padding">
+              <div class="col"><i class="ion-commented"></i>已评价</div>
+              <div class="col comment-time">{{ goods.comment_time}}</div>
+            </div>
+            <p class="comment-content">{{ goods.contents?goods.contents:(goods.quality_point+goods.speed_point+goods.service_point>9?'好评':'有待改进') }}</p>
+          </div>
+          <textarea ng-switch-when="0" name="comment" id="comment_1" placeholder="留下您的评语，让大家一起看看哦" cols="30" rows="3" ng-model="goods['content']"></textarea>
+        </div>
+      </div>
+  </ion-content>
+  <div class="footer-fixed">
+    <button class="button button-positive" ng-click="submitGrade()">确认</button>
+  </div>
+
+

@@ -1,12 +1,12 @@
 <div class="nav-bar-block">
   <ion-header-bar align-title="center" class="bar bar-header disable-user-behavior">
-    <button ng-click="$ionicGoBack()" class="button back-button buttons button-clear header-item"><i
+    <button ng-click="goStateBack()" class="button back-button buttons button-clear header-item"><i
         class="icon ion-ios-arrow-left"></i>
     </button>
     <div class="title title-center header-item">收货地址</div>
     <div class="buttons buttons-right header-item">
       <span class="right-buttons">
-        <a ng-href="#/address/edit/0" class="button button-icon button-clear " ng-if="showBtns.addressAdd">新增</a>
+        <a ng-href="#/address/edit/0" class="button button-icon button-clear">新增</a>
       </span>
     </div>
   </ion-header-bar>
@@ -14,6 +14,10 @@
 <div class="scroll-content has-header ionic-scroll overflow-scroll">
 
   <div class="address-list">
+
+    <div class="address-none" ng-if="userInfo.address_list.length == 0">
+
+    </div>
 
     <ion-list>
       <ion-item ng-repeat="item in userInfo.address_list">
@@ -23,8 +27,8 @@
             <div class="col col-50"><h3>收货人: {{ item.accept_name }}</h3></div>
             <div class="col col-50 text-right"><h3>{{ item.mobile }}</h3></div>
           </div>
-          <div class="row">
-            <div class="col">{{ item.address }}</div>
+          <div class="row address">
+            <div class="col">{{ item.address_detail }}</div>
           </div>
         </div>
 

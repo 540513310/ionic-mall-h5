@@ -1,50 +1,76 @@
 // xgStore App
-angular.module('xgStore', ['ionic', 'xgStore.controllers', 'xgStore.directives', 'xgStore.services'])
+angular.module('xgStore', ['ionic', 'xgStore.controllers', 'xgStore.directives', 'xgStore.services', 'ui.angularSku',
+  'ngAnimate', 'angularLazyImg', 'ionicRating', 'pasvaz.bindonce', 'angulartics', 'angulartics.baidu','ngIOS9UIWebViewPatch'])
+  // 百度统计
+  .config(function ($analyticsProvider) {
+    $analyticsProvider.firstPageview(true); /* Records pages that don't use $state or $route */
+    $analyticsProvider.withAutoBase(true);  /* Records full path */
+  })
 
-  .run(function ($rootScope, $location, $state, $ionicHistory, $ionicNavBarDelegate,xgUser, $ionicPopup, $ionicLoading ) {
+  .run(function ($rootScope, $location, $state, $ionicHistory, $ionicNavBarDelegate, xgUser, $ionicPopup, $ionicLoading) {
+
+    // 配置统计参数
+    var search = $location.search();
+    $rootScope.paramsGroup = {
+      platform2: search.platform || '',
+      platform_version: search.platform_version || '',
+      device_id: search.device_id || '',
+      channel: search.channel || '',
+      app_version: search.app_version || ''
+    };
+
     // 设置返回到移动端的功能
-    $rootScope.entry = $location.search().entry;
+    $rootScope.entry = $location.search().entry || 'goods'; // 夏总说默认用goods
+    $rootScope.sdk = $location.search().sdk || 19;
     $rootScope.returnMobile = function () {
       Ponto.invoke("H5ToMobileRequest", "returnMobile", {entry: $rootScope.entry, msg: {}}, null, null);
-    }
+    };
+
+    $rootScope.modelGroup = [];
 
     // 支付成功
     $rootScope.paymentSuccess = function (params) {
-      $state.go('orderList', {}).then(function () {
+      $state.go('orderList', {reload: true, replace: true}).then(function () {
 
         $ionicHistory.clearHistory();
         $ionicNavBarDelegate.showBackButton(false)
         $rootScope.showBtns.returnMobile = true;
 
         var paymentSuccessPopup = $ionicPopup.alert({
-          title: '支付成功',
-          subTitle: '亲, 订单已成功支付, 请耐心等待吧!',
+          title: '支付成功  <span class="status"></span>',
+          template: '亲, 订单已成功支付,</br> 请耐心等待吧!',
           cssClass: 'payment-success-popup',
           okText: '确定',
           okType: 'button button-outline button-positive',
         });
+
+        paymentSuccessPopup.then(function (res) {
+          $rootScope.reloadOrderList();
+        })
       });
-    }
+    };
+
 
     // 支付失败
     $rootScope.paymentFailure = function (params) {
-      $state.go('orderList', {}).then(function () {
+      $state.go('orderList', {reload: true, replace: true}).then(function () {
 
         $ionicHistory.clearHistory();
         $ionicNavBarDelegate.showBackButton(false)
         $rootScope.showBtns.returnMobile = true;
 
         var paymentFailurePopup = $ionicPopup.confirm({
-          title: '支付失败',
+          title: '支付失败 <span class="status"></span>',
           cssClass: 'payment-failure-popup',
-          subTitle: '亲, 该订单支付失败, 请重新支付!',
+          template: '亲, 该订单支付失败, </br>请重新支付!',
+          //subTitle: '亲, 该订单支付失败, 请重新支付!',
           cancelText: '取消',
           cancelType: 'button button-outline button-dark',
           okText: '去支付',
           okType: 'button button-outline button-positive',
         });
 
-        paymentFailurePopup.then(function(res) {
+        paymentFailurePopup.then(function (res) {
           if (res == true) {
             var args = {
               order_str: params.order_str,
@@ -54,7 +80,7 @@ angular.module('xgStore', ['ionic', 'xgStore.controllers', 'xgStore.directives',
           }
         });
       });
-    }
+    };
 
     $rootScope.showBtns = {
       cart: false,
@@ -76,10 +102,22 @@ angular.module('xgStore', ['ionic', 'xgStore.controllers', 'xgStore.directives',
       });
     };
 
-    $rootScope.gotoShopCart = function(){
-      xgUser.getSessionId().then(function(result){
+    $rootScope.gotoShopCart = function () {
+      xgUser.getSessionId().then(function (result) {
         $state.go('shoppingCart');
       });
+    };
+
+    $rootScope.goStateBack = function () {
+      if ($rootScope.modelGroup.length > 0) {
+        $rootScope.modelGroup.pop().hide();
+        return;
+      }
+      if ($ionicHistory.backView()) {
+        $ionicHistory.goBack();
+      } else if ($rootScope.entry !== '') {
+        $rootScope.returnMobile();
+      }
     }
 
   })
@@ -88,8 +126,8 @@ angular.module('xgStore', ['ionic', 'xgStore.controllers', 'xgStore.directives',
 
     var configProperties = {
       views: {
-        maxCache: 0,
-        forwardCache: false,
+        maxCache: 3,
+        forwardCache: true,
         transition: 'ios'
       },
       navBar: {
@@ -116,8 +154,8 @@ angular.module('xgStore', ['ionic', 'xgStore.controllers', 'xgStore.directives',
     };
     var configPropertiesAndroid = {
       views: {
-        maxCache: 0,
-        forwardCache: false,
+        maxCache: 3,
+        forwardCache: true,
         transition: 'none'
       },
       navBar: {
@@ -140,6 +178,9 @@ angular.module('xgStore', ['ionic', 'xgStore.controllers', 'xgStore.directives',
       },
       templates: {
         // maxPrefetch: 0
+      },
+      scrolling: {
+        jsScrolling: false
       }
     };
 
@@ -150,7 +191,6 @@ angular.module('xgStore', ['ionic', 'xgStore.controllers', 'xgStore.directives',
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
 
-      // top layout menu
 
       .state('product', {
         url: '/product/:id',
@@ -158,8 +198,34 @@ angular.module('xgStore', ['ionic', 'xgStore.controllers', 'xgStore.directives',
         controller: 'productCtrl'
       })
 
+      // android sdk低于4.4使用
+      .state('product4', {
+        url: '/product4/:id',
+        templateUrl: 'templates/product/detail.html',
+        controller: 'productCtrl'
+      })
+      // 店铺
+      .state('mall', {
+        url: '/mall/:id',
+        templateUrl: 'templates/mall/index.html',
+        controller: 'mallCtrl'
+      })
+      // 店铺
+      .state('mallConnect', {
+        url: '/mall/connect/:id',
+        templateUrl: 'templates/mall/connect.html',
+        controller: 'mallConnectCtrl'
+      })
+      // top layout menu
+      .state('productPreview', {
+        url: '/product/preview/:id',
+        templateUrl: 'templates/product/preview.html',
+        controller: 'productCtrl'
+      })
+
       .state('shoppingCart', {
         url: '/shopping/cart',
+        cache: false,
         templateUrl: 'templates/shopping/cart.html',
         controller: 'cartCtrl'
       })
@@ -198,8 +264,17 @@ angular.module('xgStore', ['ionic', 'xgStore.controllers', 'xgStore.directives',
       // 订单详情
       .state('orderDetail', {
         url: '/order/detail/:id',
+        cache: false,
         templateUrl: 'templates/order/detail.html',
         controller: 'orderDetailCtrl'
+      })
+
+      // 订单宝贝评价
+      .state('orderGrade', {
+        url: '/order/grade/:id',
+        cache: false,
+        templateUrl: 'templates/order/grade.html',
+        controller: 'orderGradeCtrl'
       })
 
       // 物流跟踪
@@ -224,6 +299,6 @@ angular.module('xgStore', ['ionic', 'xgStore.controllers', 'xgStore.directives',
       });
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/product/5');
+    $urlRouterProvider.otherwise('/product/166');
 
   });

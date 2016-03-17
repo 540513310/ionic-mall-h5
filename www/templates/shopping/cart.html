@@ -1,12 +1,12 @@
 <div class="nav-bar-block">
   <ion-header-bar align-title="center" class="bar bar-header disable-user-behavior">
-    <button ng-click="$ionicGoBack()" class="button back-button buttons button-clear header-item"><i
+    <button ng-click="goStateBack()" class="button back-button buttons button-clear header-item"><i
         class="icon ion-ios-arrow-left"></i>
     </button>
-    <div class="title title-center header-item" style="left: 45px; right: 45px;">商品详情</div>
+    <div class="title title-center header-item">我的购物车</div>
     <div class="buttons buttons-right header-item">
       <span class="right-buttons">
-        <button class="button button-clear button-edit" ng-click="toggleEditAll()" ng-if="showBtns.editAble">{{
+        <button class="button button-clear button-edit" ng-click="toggleEditAll()" ng-if="showBtns.editAble && !cartEmpty">{{
           editAllState?'完成':'编辑'}}</button>
       </span>
     </div>
@@ -14,7 +14,7 @@
 </div>
 <div class="scroll-content has-header ionic-scroll overflow-scroll">
   <div class="list list-tabao list-arrow">
-    <a class="item item-avatar-left item-icon-right" href="">
+    <a class="item item-avatar-left item-icon-right" ng-click="taobaoCart()">
       <div class="item-image"></div>
       <h2>淘宝购物车</h2>
 
@@ -22,11 +22,12 @@
       <i class="icon ion-ios-arrow-right"></i>
     </a>
   </div>
-  <div class="title-line cart-title-line">
-    <hr/>
-    <span class="title-cont">精品街商城购物车</span>
+  <div class="divide-line">
+    <div></div>
+    <span><i><b>精品街商城订单</b></i></span>
   </div>
-  <div class="list cart-list" ng-repeat="(k,stores) in cartItems">
+  <div class="empty-cart" ng-if="cartEmpty == true"></div>
+  <div class="list cart-list" ng-repeat="(k,stores) in cartItems" ng-if="cartEmpty== false">
     <div class="item item-left-editable item-top" ng-if="stores.length>0">
       <div class="item-checkbox">
         <label class="checkbox" ng-click="xgCart.selectStore('{{k}}')">
@@ -40,9 +41,9 @@
       </div>
       <div class="item-content">
         <div class="row row-no-padding">
-          <div class="col"><i class="ion-mall-hover"></i>{{ stores[0].seller.true_name}} <i
+          <div class="col"><i class="ion-bag"></i>{{ stores[0].seller.true_name}} <i
               class="ion-ios-arrow-right"></i></div>
-          <div class="col col-15 col-edit"><a href="" ng-click="toggleEdit(k)">{{
+          <div class="col col-15 col-edit"><a href="" ng-click="toggleEdit(k)" ng-cloak="">{{
             stores[0].editNow?'完成':'编辑'}}</a></div>
         </div>
       </div>
@@ -54,29 +55,35 @@
               type="checkbox"
               name=""
               value=""
+              ng-if="goods.is_valid"
               ng-checked="goods.selected"
               ng-model="goods.selected"/>
         </label>
       </div>
       <div class="item-edited">
         <div class="item-thumbnail-left">
-          <div class="item-image"><img alt="" ng-src="{{ goods.goods.img}}"/></div>
+          <div class="item-image"><img alt="" ng-src="{{ goods.goods.current_img || goods.goods.img}}"/></div>
           <div class="item-content">
             <div class="" ng-show="stores[0].editNow == false">
-              <h2 class="txt-normal"><a href="#/app/product/{{goods.goods.id}}">{{ goods.goods.name}}</a></h2>
+              <h2 class="txt-normal"><a ng-click="gotoProductDetail(goods.goods.id)" href="">{{ goods.goods.name}}</a></h2>
 
               <p>{{ goods.goods.product_list[goods.cart.product_id].spec_str }}</p>
 
-              <div class="row row-no-padding row-price">
+              <div class="row row-no-padding row-price" ng-if="goods.is_valid">
                 <div class="col col-66" ng-if="!multiple"><span class="price-txt">￥{{ goods.goods.sell_price}}</span>
                 </div>
                 <div class="col col-34 text-right">{{ goods.cart.quantity }}{{ goods.goods.unit}}</div>
               </div>
+
+              <div class="invalid" ng-if="goods.is_valid == 0">
+                <p><span>已失效</span> 此宝贝已不能购买!</p>
+              </div>
+
             </div>
             <div class="cart-item-edit" ng-show="stores[0].editNow == true">
               <div class="row row-no-padding">
                 <div class="col">
-                  <div class="col-quantity">
+                  <div class="col-quantity" ng-if="goods.is_valid">
                     <button
                         class="btn btn-inverse" type="button"
                         ng-disabled="goods.cart.quantity <= 1"
@@ -89,6 +96,10 @@
                         ng-disabled="goods.cart.quantity >= 1000"
                         ng-click="addItem(k,$index,1)"><i class="ion-plus"></i></button>
                   </div>
+                  <div ng-if="goods.is_valid == 0" class="invalid">
+                    <h2>{{ goods.goods.name }}</h2>
+                  </div>
+
                   <p class="txt-normal goods-spec" ng-if="goods.goods.product_list[goods.cart.product_id].spec_str"
                      ng-click="changeSku(k,$index)">{{ goods.goods.product_list[goods.cart.product_id].spec_str }} <i
                       class="ion-ios-arrow-down icon-right"></i></p>
@@ -124,7 +135,7 @@
       <div class="col col-50 col-total">合计: <span class="positive">￥{{ checkout.total.toFixed(2) }}</span>
       </div>
       <div class="col col-33">
-        <button class="button button-full button-positive" ng-click="xgCart.checkoutNow()">去支付( {{
+        <button class="button button-full button-positive" ng-disabled="!checkout.selected" ng-click="xgCart.checkoutNow()">去支付( {{
           checkout.selected }} )
         </button>
       </div>

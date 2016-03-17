@@ -1,9 +1,12 @@
 .refund-detail {
   .status-applying, .status-reject, .status-success, .status-refunded {
     margin-top: 10px;
-    padding-bottom: 5px;
-    background: url("/img/refund/bg_status_tag.png") repeat-x left bottom;
-    background-size: 5px 5px;
+    &.has-refund{
+      padding-bottom: 5px;
+      background: url("/img/refund/bg_status_tag.png") repeat-x left bottom;
+      background-size: 5px 5px;
+    }
+
     .title {
       background-color: #ffa2a2;
       p {
@@ -25,40 +28,60 @@
       p {
         margin: 0;
         font-size: 10px;
+        color: #898989;
         span {
           font-weight: bold;
+          color: #000;
         }
       }
     }
   }
-
-  .contact-seller {
-    padding: 0;
-    background: white;
-    margin-top: 10px;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    .col {
-      padding: 0;
-      height: 26px;
-      line-height: 26px;
-      font-size: 13px;
-    }
-    .name {
-      color: $positive;
-      background: url("/img/order/icon_seller.png") no-repeat 10px center;
-      background-size: 16px 16px;
-      padding-left: 30px;
+  
+  .button-wrap{
+    background-color: #fff;
+    padding: 5px 10px;
+    .button{
+      margin: 0;
+      background-color: #fff;
+      border-color: #cccccc;
+      color: #666666;
+      border-radius: 5px;
     }
   }
 
-  .detail {
-    padding: 0;
+  .contact-seller {
+    padding: 5px 0;
+    background: white;
     margin-top: 10px;
+    .col {
+      padding: 0;
+      height: 28px;
+      line-height: 28px;
+      font-size: 14px;
+      .button{
+        line-height: 18px;
+        margin-top: 5px;
+        margin-right: 10px;
+      }
+    }
+    .name {
+      color: $positive;
+      text-align: left;
+      background: url("/img/order/icon_seller.png") no-repeat 10px center;
+      background-size: 16px 16px;
+      padding-left: 30px;
+
+    }
+  }
+
+  .list-refund-detail {
+    padding: 0;
+    margin: 3px 0 10px;
     .row {
       padding: 10px;
       .col {
         padding: 0;
+        color: #7a7a7a;
         &.col-25 {
           color: #888888;
         }
@@ -70,5 +93,119 @@
       }
     }
 
+  }
+}
+
+.refund-confirm{
+  .popup{
+    border-radius: 5px;
+  }
+  .popup-sub-title{
+    font-size: 14px;
+    color: #666666;
+  }
+  .popup-buttons{
+    min-height: inherit;
+    .button{
+      margin: 0 10px;
+      font-size: 12px;
+      min-height: 30px;
+      line-height: 30px;
+      height: 30px;
+    }
+  }
+}
+
+.refund-next{
+  padding: 0 10px;
+}
+
+.refund-info,
+.refund-content,
+.refund-tip{
+  background-color: #fff;
+  margin-bottom: 8px;
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 1px 1px #E6E6E6;
+  position: relative;
+  &:after{
+    content: ' ';
+    display: block;
+    position: absolute;
+    width: 22px;
+    height: 16px;
+    bottom: -4px;
+    left: -2px;
+    background: url("../img/refund/shape_white.png");
+    -webkit-background-size: 22px 16px;
+    background-size: 22px 16px;
+  }
+}
+.refund-content{
+  background-color: #a2c7ff;
+  color: #fff;
+  box-shadow: 0 1px 1px #a2c7ff;
+  &:after{
+    left: inherit;
+    right: -2px;
+    background: url("../img/refund/shape_blue.png");
+    -webkit-background-size: 22px 16px;
+    background-size: 22px 16px;
+  }
+}
+
+.refund-tip{
+  color: #adadad;
+}
+
+.refund-info{
+  .address-item{
+    padding-left: 65px;
+    position: relative;
+    color: #adadad;
+    .title{
+      color: #676767;
+      position: absolute;
+      left: 0;
+      top: 0px;
+    }
+  }
+}
+
+.refund-ship{
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 1px 1px #E6E6E6;
+  background-color: #fff;
+
+  .row{
+    line-height: 30px;
+    + .row{
+      margin: 0;
+    }
+    &.row-company{
+      border-bottom: 1px solid #e1dedd;
+      margin: 1px 0;
+      i{
+        float: right;
+        font-size: 24px;
+      }
+      .shipment{
+        color: $positive;
+      }
+    }
+    .col{
+      padding: 0 5px;
+      color: #adadad;
+      input{
+        display: block;
+        width: 100%;
+      }
+    }
+    .title{
+      flex: 100px 0 0;
+      color: #676767;
+    }
   }
 }

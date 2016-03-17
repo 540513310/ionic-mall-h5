@@ -1,0 +1,111 @@
+.mall-banner{
+  margin: -10px -10px 6px;
+  img{
+    width: 100%;
+  }
+}
+
+.group-icon{
+  display: block;
+  width: 35px;
+  height: 30px;
+  background-image: url(#{$img-url}mall/tuan_icon.png);
+  -webkit-background-size: contain;
+  background-size: contain;
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+}
+
+.mall-products{
+  margin-top: 5px;
+  .item{
+    border: none;
+    a{
+      text-decoration: none;
+      color: #a5a5a5;
+    }
+    &.item-thumbnail-left{
+      padding-left: 165px;
+      min-height: 161px;
+      border-bottom: 1px solid #e2e2e2;
+      margin-bottom: 5px;
+
+      .item-image{
+        left: 5px;
+        top: 5px;
+        max-width: 150px;
+        max-height: 150px;
+        overflow: hidden;
+      }
+    }
+  }
+  .goods-des{
+    h2{
+      color: #666;
+      font-size: 12px;
+      line-height: 14px;
+    }
+    .price-wrapper{
+      height: 23px;
+      line-height: 23px;
+      position: absolute;
+      left: 165px;
+      top: 50%;
+      margin-top: -12px;
+      .sell-price{
+        color: #ff206f;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      .origin-price{
+        font-size: 12px;
+        line-height: 23px;
+        text-decoration: line-through;
+        display: inline-block;
+        transform: scale(.8);
+        -webkit-transform: scale(.8);
+      }
+      .by{
+        border: 1px solid #a5a5a5;
+        border-radius: 5px;
+        font-size: 12px;
+        line-height: 12px;
+        padding: 2px;
+        display: inline-block;
+        transform: scale(.6);
+        transform-origin: 0;
+        -webkit-transform: scale(.6);
+        -webkit-transform-origin: 0;
+      }
+    }
+  }
+  .sell-info{
+    position: absolute;
+    bottom: 5px;
+    left: 165px;
+    transform: scale(.8);
+    transform-origin: 0 100% ;
+    -webkit-transform: scale(.8);
+    -webkit-transform-origin: 0 100%;
+    .discount {
+      margin-right: 14px;
+    }
+
+    .sale-num{
+      margin-right: 14px;
+    }
+  }
+}
+
+
+.mall-connect{
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  >iframe{
+    min-height: 100%;
+    min-width: 100%;
+  }
+
+}

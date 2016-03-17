@@ -32,6 +32,7 @@
 
 .action-sheet-up {
   @include translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0,0,0);
 }
 
 .action-sheet {
@@ -48,12 +49,26 @@
     border-radius: 0;
     border-color: $sheet-options-border-color;
     background-color: transparent;
+    min-height: 20px;
+    line-height: 20px;
+    height: 30px;
 
-    color: $sheet-options-text-color;
-    font-size: 21px;
+    color: #b2b2b2;
+    font-size: 14px;
+    &.sheet-selected{
+      color: $positive;
+    }
 
+    &:after{
+      top: 0;
+      bottom: 0;
+    }
+
+    &:active,
+    &:visited,
     &:hover {
-      color: $sheet-options-text-color;
+      color: #b2b2b2;
+      background-color: transparent;
     }
     &.destructive {
       color: #ff3b30;

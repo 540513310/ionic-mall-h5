@@ -8,14 +8,28 @@
 </div>
 <div class="scroll-content has-header ionic-scroll overflow-scroll">
 
-    <div class="delivery-trace">
+  <div class="delivery-trace" ng-repeat="row in data">
+    <div class="trace-header">
+      <i class="icon ion-trace"></i>
+      <div>
+        <h2>{{ row.freight_company }}</h2>
 
-      <div class="list" ng-repeat="row in data">
-        <li class="item" ng-repeat="trace in row.traces">
-          <h2>{{ trace.accept_station }}</h2>
-          <p>{{ trace.accept_time }}</p>
-        </li>
+        <p>快递单号：{{ row.delivery_code }}</p>
       </div>
     </div>
+    <div class="list-trace">
+      <div class="trace-item" ng-class="{'active':$first}" ng-repeat="trace in row.traces | reverse">
+        <div class="trace-process">
+          <div class="line"></div>
+          <i class="trace-point"></i>
+        </div>
+        <div class="trace-content" ng-class="{'last':$last}">
+          <h2>{{ trace.accept_station }}</h2>
+          <p>{{ trace.accept_time }}</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
 
 </div>

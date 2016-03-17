@@ -23,6 +23,8 @@
   border-top: 1px solid transparent;
   border-bottom: 1px solid $bar-default-border;
 
+  color: #80737b;
+
   background-color: $bar-default-bg;
 
   /* border-width: 1px will actually create 2 device pixels on retina */
@@ -143,7 +145,7 @@
     white-space: nowrap;
 
     font-size: $bar-title-font-size;
-    font-weight: $headings-font-weight;
+    font-weight: bolder;
 
     line-height: $bar-height;
 
@@ -181,12 +183,17 @@
 
     &.button-icon {
       font-size: $bar-title-font-size;
+      &:last-child{
+        margin-left: 5px;
+      }
       .icon:before,
       &:before,
       &.icon-left:before,
       &.icon-right:before {
         vertical-align: top;
-        font-size: $button-large-icon-size;
+        color: #80737b;
+        font-size: 19px;
+        font-weight: bold;
         line-height: $button-bar-button-height;
       }
     }
@@ -200,7 +207,9 @@
       &.icon:before,
       &.icon-left:before,
       &.icon-right:before {
-        font-size: $button-large-icon-size;
+        font-size: 19px;
+        font-weight: bold;
+        color: #80737b;
         line-height: $button-bar-button-height;
       }
     }

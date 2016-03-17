@@ -1,4 +1,13 @@
 .address-list {
+  
+  .address-none{
+    background: url(#{$img-url}address/address_none.png) center center no-repeat;
+    width: 200px;
+    height: 164px;
+    -webkit-background-size: 200px 164px;
+    background-size: 200px 164px;
+    margin: 0 auto;
+  }
 
   .item {
     margin-top: 5px;
@@ -16,7 +25,12 @@
         
         h3 {
           font-weight: normal;
+          color: #666;
         }
+      }
+      .row.address {
+        white-space: normal;
+        color: #9c9c9c;
       }
     }
 
@@ -28,6 +42,7 @@
 
       .col:first-child {
         padding: 0;
+        color: #adadad;
         padding-left: 22px + 5px;
         line-height: 31px;
         background: url("/img/address/address_default.png") no-repeat 5px center;
@@ -44,13 +59,8 @@
 
         a {
           color: #ff7a9a;
-          font-size: 20px;
-          &:first-child {
-            font-size: 17px;
-          }
+          font-size: 16px;
           position: relative;
-          top: -3px;
-          right: -2px;
         }
 
         span {

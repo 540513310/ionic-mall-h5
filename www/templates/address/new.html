@@ -1,0 +1,56 @@
+<ion-modal-view ng-controller="addressNewCtrl">
+  <div class="nav-bar-block">
+    <ion-header-bar align-title="center" class="bar bar-header disable-user-behavior">
+      <button ng-click="closeNewAddress()" class="button back-button buttons button-clear header-item"><i
+          class="icon ion-ios-arrow-left"></i>
+      </button>
+      <div class="title title-center header-item">{{ address.address_id && address.address_id !== 0 ? '修改' : '新增' }}收货地址</div>
+      <div class="buttons buttons-right header-item">
+      <span class="right-buttons">
+        <a ng-click="addressSave()" class="button button-icon button-clear">保存</a>
+      </span>
+      </div>
+    </ion-header-bar>
+  </div>
+  <div class="scroll-content has-header ionic-scroll overflow-scroll">
+    <div class="address-edit">
+      <div class="list">
+        <label class="item item-input">
+          <span class="input-label">收货人</span>
+          <input type="text" ng-model="address.accept_name">
+        </label>
+        <label class="item item-input">
+          <span class="input-label">邮编</span>
+          <input type="text" ng-model="address.zip">
+        </label>
+        <label class="item item-input">
+          <span class="input-label">手机号码</span>
+          <input type="text" ng-model="address.mobile">
+        </label>
+        <label class="item item-input" >
+          <span class="input-label">城市</span>
+          <input type="text" ng-click="popupChooseArea()" style="background: white"
+                 readonly ng-model="address.address_area">
+        </label>
+        <label class="item item-input">
+          <span class="input-label">详细地址</span>
+          <input type="text" ng-model="address.address">
+        </label>
+
+        <label class="item item-input item-toggle">
+          <span class="input-label">设置为默认</span>
+
+          <label class="toggle toggle-assertive">
+            <input type="checkbox" ng-model="address.default" ng-checked="address.default">
+
+            <div class="track">
+              <div class="handle"></div>
+            </div>
+          </label>
+        </label>
+
+      </div>
+
+    </div>
+  </div>
+</ion-modal-view>

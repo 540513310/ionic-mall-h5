@@ -1,3 +1,15 @@
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+body {
+  overflow:hidden;
+}
+.overflow-scroll {
+  overflow-y:auto !important;
+}
+
 body,.pane, .view{
   background-color: $body-color;
 }
@@ -9,15 +21,69 @@ body,.pane, .view{
 .txt-normal{
   white-space: normal !important;
 }
-.tag-by{
+.tag-by {
   color: #fa334f;
   border: 1px solid #fa334f;
-  font-size: 12px;
-  line-height: 12px;
-  padding: 4px;
+  font-size: 11px;
+  line-height: 11px;
+  padding: 3px;
   display: inline-block;
   vertical-align: top;
 }
 .mb-15{
   margin-bottom: 15px !important;
 }
+
+.nav-bar-block {
+  .title.title-center.header-item {
+    font-size: 17px;
+    font-weight: normal;
+  }
+  .button {
+    .icon.ion-ios-arrow-left:before {
+      font-size: 14px;
+    }
+    &.back-button {
+      padding-right: 10px;
+    }
+  }
+  .right-buttons {
+    a {
+      color: #80737b;
+      font-size: 14px !important;
+    }
+  }
+}
+
+.divide-line {
+  padding: 10px 0;
+  text-align: center;
+  span {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+    margin: 0;
+    background-color: #f2efee;
+    z-index: 100;
+    position: relative;
+    padding: 0 0px;
+    top: -1px;
+    i {
+      padding-left: 15px;
+      background: url("/img/common/divide_line_block.png") no-repeat left center;
+      b {
+        font-weight: normal;
+        padding-right: 15px;
+        background: url("/img/common/divide_line_block.png") no-repeat right center;
+      }
+    }
+  }
+  div {
+    border-bottom: 1px dotted #c3c3c3;
+    position: relative;
+    top: 8px;
+  }
+}
+
+
+

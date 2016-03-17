@@ -1,7 +1,7 @@
 
 angular.module('xgStore.controllers')
 
-  .controller('addressListCtrl', function ($scope, $rootScope, $state, $stateParams, $ionicLoading, xgUser, xgApi,$location, $ionicHistory) {
+  .controller('addressListCtrl', function ($scope, $rootScope, $state, $stateParams, $ionicLoading, xgUser, xgApi,$location, $ionicHistory, $ionicPopup) {
 
     $scope.userInfo = {};
 
@@ -32,6 +32,10 @@ angular.module('xgStore.controllers')
     // 刷新数据
     $scope.doRefresh = function() {
       xgUser.getSessionId().then(function () {
+        if ($rootScope.entry == 'address') {
+          // 通知native关闭顶部bar
+          Ponto.invoke("H5ToMobileRequest", "hideNativeNavBar", {}, null, null);
+        }
         setUserInfo();
       });
     }
@@ -59,12 +63,27 @@ angular.module('xgStore.controllers')
     // 删除收货地址
     $scope.deleteAddress = function (id) {
 
-      xgUser.getSessionId().then(function () {
-        return xgApi.requestApi("/api/address/delete", {address_id : id});
-      }).then(function(result) {
-        $scope.userInfo = result;
-        $ionicLoading.show({template: '删除成功', noBackdrop: true, duration: 1000})
-      })
+      var deleteAddressPopup = $ionicPopup.confirm({
+        title: '删除收货地址',
+        cssClass: 'remove-order-popup',
+        subTitle: '确认删除该收货地址？',
+        cancelText: '取消',
+        cancelType: 'button button-outline button-dark',
+        okText: '确定',
+        okType: 'button button-outline button-positive',
+      });
+
+      deleteAddressPopup.then(function (res) {
+        if (res == true) {
+          xgUser.getSessionId().then(function () {
+            return xgApi.requestApi("/api/address/delete", {address_id : id});
+          }).then(function(result) {
+            $scope.userInfo = result;
+            $ionicLoading.show({template: '删除成功', noBackdrop: true, duration: 1000})
+          })
+        }
+      });
+
     };
 
     //$location.path($ionicHistory.backView().url)

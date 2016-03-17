@@ -1,7 +1,15 @@
 .sku-modal{
   min-height: inherit;
+  max-height: 80%;
   top: auto;
   bottom:0;
+  padding-bottom: 45px;
+  .s-content{
+    max-height: 205px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
@@ -16,10 +24,15 @@
   }
   .item-thumbnail-left,
   .item-thumbnail-left .item-content{
-    padding-top: 15px;
+    padding-top: 25px;
   }
   .item-close{
-    text-align: right;
+    position: absolute;
+    right: 0px;
+    top: 10px;
+    display: block;
+    width: 25px;
+    height: 25px;
     color: #ff7a9a;
     font-size: 16px;
     margin-top: -5px;
@@ -39,79 +52,101 @@
   .item-check-now{
     padding: 5px 15px;
     text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #f7f7f7;
+    border-top: 1px solid #dcdcdc;
     button{
       margin-right: 20px;
       min-width: 100px;
     }
   }
-  .item-sku-filter{
-    background-color: #ededed;
-    padding-bottom: 2px;
-    .col-quantity{
-      float: right;
-    }
-    dl{
-      padding-bottom: 12px;
-      border-bottom: 1px solid #d5d5d5;
-      margin-bottom: 15px;
+}
 
+.item-sku-filter{
+  padding: 10px;
+  .col-quantity{
+    float: right;
+  }
+  .row-quantity{
+    .col{
+      line-height: 24px;
     }
-    .filter-cates{
-      color: #a5a5a5;
+  }
+  dl{
+    padding-bottom: 12px;
+    border-bottom: 1px solid #dcdcdc;
+    margin-bottom: 15px;
+
+  }
+  .filter-cates{
+    color: #a5a5a5;
+    font-size: 12px;
+    line-height: 12px;
+  }
+  .filter-items{
+    overflow: hidden;
+    span{
+      display: block;
+      float: left;
+      white-space: normal;
+    }
+    a{
+      display: block;
       font-size: 12px;
-      line-height: 12px;
-      margin-bottom: 8px;
-    }
-    .filter-items{
-      a{
-        font-size: 12px;
-        line-height: 14px;
-        text-align: center;
-        display: inline-block;
-        border: 1px solid #b2b2b2;
-        border-radius: 2px;
-        margin-right: 5px;
-        color: #7f7f7f;
-        padding: 2px 5px;
-        text-decoration: none;
-        &.active{
-          background-color: #fd84a1;
-          border-color: #fd84a1;
-          color: #fff;
-        }
+      text-align: center;
+      border: 1px solid #dcdcdc;
+      border-radius: 2px;
+      margin-right: 8px;
+      min-width: 50px;
+      line-height: 24px;
+      margin-top: 5px;
+      color: #7f7f7f;
+      padding: 2px 5px;
+      text-decoration: none;
+      &.active{
+        background-color: #fd84a1;
+        border-color: #fd84a1;
+        color: #fff;
+      }
+      &.disabled{
+        border-style: dashed;
+        border-color: #DEDEDE;
+        color: #DEDEDE;
       }
     }
   }
-
 }
 
 .col-quantity{
-  border: 1px solid #b2b2b2;
-  height: 24px;
+  border: 1px solid #dcdcdc;
+  height: 30px;
   overflow: hidden;
-  width: 75px;
-  line-height: 22px;
+  width: 100px;
+  line-height: 30px;
   button,
   input{
     display: inline-block;
-    height: 22px;
-    line-height: 22px;
+    line-height: 28px;
+    height: 28px;
     font-size: 15px;
     border: none;
     margin: 0 -3px 0 0;
     padding: 0;
+    border-radius: 0;
     background: none;
     vertical-align: top;
+    font-weight: 200;
   }
   button{
-    width: 22px;
+    width: 30px;
     border: none;
   }
   input{
-    width: 30px;
-    border: 1px solid #b2b2b2;
+    width: 40px;
+    border: 1px solid #dcdcdc;
     border-width: 0 1px;
-    line-height: 18px;
     color: #ff0157;
   }
 }

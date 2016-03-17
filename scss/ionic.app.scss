@@ -7,6 +7,7 @@ For example, you might change some of the default colors:
 
 $light:                           #fff !default;
 $stable:                          #f8f8f8 !default;
+$button-positive-border:          #ff7a9a !default;
 $positive:                        #ff7a9a !default;
 $calm:                            #11c1f3 !default;
 $balanced:                        #33cd5f !default;
@@ -19,11 +20,16 @@ $body-color:                      #f2efee !default;
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
+$img-url:   "../img/";
+
+
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
 // Custom theme
 //===========================
+
+
 
 // common
 @import "common";

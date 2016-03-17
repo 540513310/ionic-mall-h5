@@ -75,3 +75,11 @@
   -webkit-transition: none !important;
   transition: none !important;
 }
+
+.grade-b,
+.grade-c{
+  .scroll{
+    height: inherit;
+    -webkit-transform: none;
+  }
+}

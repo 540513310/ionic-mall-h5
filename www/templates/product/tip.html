@@ -1,0 +1,18 @@
+<ion-modal-view class="sku-modal tip-modal">
+  <i class="close-btn" ng-click="closeTip()"></i>
+  <div class="tip-title">
+    <i class=""></i>活动须知
+  </div>
+  <div class="group-rule">
+    <ul>
+      <li><span class="label">活动日期:</span>{{ productInfo.regiment.start_time + '-' + productInfo.regiment.end_time}}</li>
+      <li><span class="label">满团人数:</span>{{ productInfo.regiment.store_nums}}人</li>
+      <li><span class="label">满团发货时间:</span>满团后24小时内发货</li>
+      <li><span class="label">未满团:</span>团购结束后未满的团将全额退款</li>
+    </ul>
+  </div>
+  <div class="tip-title">
+    <i class=""></i>活动规则
+  </div>
+  <div class="group-rule" ng-bind="productInfo.regiment.intro"></div>
+</ion-modal-view>

@@ -1,0 +1,24 @@
+<ion-modal-view class="area-modal" ng-controller="areaCtrl" class="area-detail">
+  <div class="nav-bar-block">
+    <ion-header-bar align-title="center" class="bar bar-header disable-user-behavior">
+      <button ng-click="hideModal()" class="button back-button buttons button-clear header-item"><i
+        class="icon ion-ios-arrow-left"></i>
+      </button>
+      <div class="title title-center header-item">请选择城市区域</div>
+      <div class="buttons buttons-right header-item">
+      <span class="right-buttons">
+      </span>
+      </div>
+    </ion-header-bar>
+  </div>
+
+  <div class="scroll-content has-header ionic-scroll overflow-scroll">
+    <div class="list">
+
+      <a class="item item-icon-right" ng-repeat="area in areaList" ng-click="chooseArea(area.area_id, area.area_name)">
+        {{ area.area_name }}
+        <i class="icon ion-ios-checkmark" ng-if="area.area_id == address.province || area.area_id == address.city || area.area_id == address.area"></i>
+      </a>
+    </div>
+  </div>
+</ion-modal-view>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta name="format-detection" content="telephone=no">
+    <title></title>
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above -->
+    <link href="css/ionic.app.min.css?rev=06abac284e523da86efc9d10b1bfdeb0" rel="stylesheet">
+
+    <script src="lib/ponto.js?rev=c8b6637c9344319cbb110495b828d2f1"></script>
+
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.min.js?rev=4176283c2a63943290be7b76a04b6dc1"></script>
+    <script src="lib/lazy-image.js?rev=90c07f6f0038c17a6c36f83a190b5cd1"></script>
+    <script src="lib/bindOnce.min.js?rev=e9b17a52d6397c2d90a7220a8c059b45"></script>
+
+    <!-- production -->
+    <script src="dist/js/all.min.js?rev=cf16fed13c5e4a1acb0532ab59322360"></script>
+
+    <script src="js/MobileToH5Request.js?rev=06dd1925cb66d367dde3a2f3e7ef9a7a"></script>
+    <!-- 百度分析 -->
+    <script src="lib/angulartics/dist/angulartics.min.js?rev=af2495c2ce99a4ca6fa6bb20bbe8dd5d"></script>
+    <script src="lib/angulartics/dist/angulartics-baidu.min.js?rev=e728b5f4712211d1cfc8a8abb210107b"></script>
+  </head>
+
+  <body ng-app="xgStore">
+    <ion-nav-view ng-controller="AppCtrl"></ion-nav-view>
+  </body>
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?f7a9c4aa280d7c53826edec3d13def12";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</html>

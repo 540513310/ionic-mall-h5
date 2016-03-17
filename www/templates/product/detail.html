@@ -1,107 +1,315 @@
 <div class="nav-bar-block" nav-bar="active">
   <ion-header-bar align-title="center" class="bar bar-header disable-user-behavior">
-    <button ng-click="$ionicGoBack()" class="button back-button buttons  button-clear header-item"><i
+    <button ng-click="goStateBack()" class="button back-button buttons  button-clear header-item"><i
         class="icon ion-ios-arrow-left"></i>
       </button>
-    <div class="title title-center header-item" style="left: 45px; right: 45px;">商品详情</div>
+    <div class="title title-center header-item">商品详情</div>
     <div class="buttons buttons-right header-item">
       <span class="right-buttons">
-        <a ng-click="gotoShopCart();" class="button button-icon button-clear ion-ios-cart-outline"></a>
+        <a ng-click="gotoShopCart();" class="button button-icon button-clear ion-ios-cart-outline">
+          <span class="badge badge-positive" ng-if="productInfo.cart_count > 0">{{ productInfo.cart_count }}</span>
+        </a>
+        <a ng-click="returnMobile();" class="button button-icon button-clear ion-android-exit"></a>
       </span>
     </div>
   </ion-header-bar>
 </div>
-<div class="scroll-content has-header ionic-scroll overflow-scroll">
-  <div class="product-detail">
-    <div class="item item-image">
-      <img ng-src="{{ productInfo.img}}">
-    </div>
 
-    <div class="item item-product-desc">
-      <div class="row row-no-padding row-pro-name">
+
+<div class="empty-content" ng-if="productInfo.is_del != 0">
+  <div class="goods-out-img"></div>
+  <!--<img src="/img/product/goods_out.png" class="goods-out-img" />-->
+</div>
+
+<!--<div id="slider">-->
+  <!--<ion-slide-box show-pager="true" does-continue="false" auto-play="false" >-->
+    <!--<ion-slide  ng-repeat="photo in productInfo.photo_list">-->
+      <!--<img ng-src="{{ productInfo.photo_list[$index] }}" />-->
+    <!--</ion-slide>-->
+  <!--</ion-slide-box>-->
+<!--</div>-->
+
+<div class="" ng-if="productInfo.is_del == 0" bindonce="productInfo">
+  <ion-content overflow-scroll="true">
+    <div class="product-detail">
+      <ion-slide-box show-pager="true" does-continue="false" auto-play="false"  on-touch="callNativeSliderChange()">
+        <ion-slide bindonce ng-repeat="photo in productInfo.photo_list track by $index">
+          <img style="max-width: 100%;" ng-src="{{ productInfo.photo_list[$index] }}" />
+        </ion-slide>
+      </ion-slide-box>
+      <!-- 普通商品开始 -->
+      <div class="item item-product-desc" ng-if="!productInfo.regiment" ng-switch="multiple">
+        <div class="row row-no-padding row-pro-name">
+          <div class="col">
+            <h2 class="txt-normal" ng-bind="productInfo.name"></h2>
+          </div>
+          <!--<div class="col col-15 col-center"><a href="" class="add-to-favorite"><i class="ion-ios-heart"></i></a></div>-->
+        </div>
+
+        <!--  价格浮动的情况开始 -->
+        <div class="row row-no-padding row-price" ng-switch-when="true">
+          <div class="col"><span class="price-txt">￥<span bo-bind="productInfo.price_range.min_sell_price == productInfo.price_range.max_sell_price ? productInfo.price_range.min_sell_price : productInfo.price_range.min_sell_price + '-' + productInfo.price_range.max_sell_price"></span></span>
+            <span class="tag-by">包邮</span></div>
+        </div>
+        <div class="row row-no-padding row-pro-count" ng-switch-when="true">
+          <div class="col">
+            <span class="o-price" >￥<span bo-bind="productInfo.market_price"></span></span>
+            <span bo-bind ng-if="productInfo.price_range.min_sell_price/productInfo.price_range.min_market_price*10 > 0.1 && productInfo.price_range.min_sell_price/productInfo.price_range.min_market_price*10 < 10">
+            {{ (productInfo.price_range.min_sell_price/productInfo.price_range.min_market_price*10).toFixed(1) }}折
+            </span>
+          </div>
+          <div class="col" ng-bind="productInfo.sale > 10 ? productInfo.sale+'人已买' : '推荐'"></div>
+        </div>
+        <!--  价格浮动的情况结束-->
+
+        <!--  价格固定开始 -->
+        <div class="row row-no-padding row-price" ng-switch-when="false">
+          <div class="col"><span class="price-txt">￥{{ productInfo.sell_price}}</span> <span
+          class="tag-by">包邮</span></div>
+        </div>
+        <div class="row row-no-padding row-pro-count" ng-switch-when="false">
+          <div class="col" ng-if="!multiple">
+          <span class="o-price" >￥{{ productInfo.market_price}}</span>
+          <span ng-if="productInfo.sell_price/productInfo.market_price*10 > 0.1 || productInfo.sell_price/productInfo.market_price*10 < 10">
+          {{(productInfo.sell_price/productInfo.market_price*10).toFixed(1) }}折
+          </span>
+          </div>
+          <div class="col" ng-bind="productInfo.sale > 10 ? productInfo.sale+'人已买' : '推荐'"></div>
+        </div>
+        <!--  价格固定结束 -->
+      </div>
+      <!-- 普通商品结束 -->
+
+      <!-- 团购开始 -->
+      <div class="item item-product-desc group-buy-wrapper" ng-if="productInfo.regiment">
+        <div class="row row-no-padding row-pro-name">
+          <div class="col">
+            <h2 class="txt-normal" ng-bind="productInfo.regiment.title"></h2>
+          </div>
+        </div>
+        <div class="group-buy">
+          <div class="group-tip" ng-click="showTip()">满{{productInfo.regiment.store_nums}}人拼团即可成功，人数不足将自动退款，详见 <span class="assertive">【活动规则】</span><a href="" class="tip-link">查看</a></div>
+          <div class="row row-no-padding">
+            <div class="col col-34">
+              <div class="buy-price">￥{{ productInfo.regiment.sell_price}} <span class="unit">/件</span></div>
+              <div class="buy-num">原价</div>
+            </div>
+            <div class="col">
+              <div class="buy-price">￥{{ productInfo.regiment.regiment_price}} <span class="unit">/件</span></div>
+              <div class="buy-num">库存还剩{{productInfo.store_nums}}件</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 团购结束 -->
+
+      <div class="item ensure">
+        <div class="divide-line">
+          <div class="dot"></div>
+          <span><i><b>精品街服务保障</b></i></span>
+
+        </div>
+        <div class="row">
+          <div class="col col-25">
+            <h2 class="ion ion-qa3"></h2>
+            <p>正品保障</p>
+          </div>
+          <div class="col col-25">
+            <h2 class="ion ion-qa1"></h2>
+            <p>闪电发货</p>
+          </div>
+          <div class="col col-25">
+            <h2 class="ion ion-qa5"></h2>
+            <p>无理由退货</p>
+          </div>
+          <div class="col col-25">
+            <h2 class="ion ion-qa2"></h2>
+            <p>小编验货</p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="item mall-info" bindonce="productInfo.seller">
+        <div class="mall-head">
+          <h2><i class="ion-bag"></i><span bo-bind="productInfo.seller.true_name"></span><a ng-href="{{ '#/mall/'+productInfo.seller.id}}" class="mall-link">进店逛逛</a></h2>
+          <div class="row row-no-padding mall-grade">
+            <div class="col">描述相符:<span class="positive">{{ productInfo.seller.quality_point}}分</span></div>
+            <div class="col">服务态度:<span class="positive">{{ productInfo.seller.service_point}}分</span></div>
+            <div class="col">发货速度:<span class="positive">{{ productInfo.seller.speed_point}}分</span></div>
+          </div>
+        </div>
+
+        <div class="row ">
+          <div class="col">
+            <i class="ion-mall-check"></i>保证金已缴纳
+          </div>
+          <div class="col">
+            <i class="ion-mall-check"></i>商品已验货
+          </div>
+        </div>
+        <div class="row">
+          <div class="col"><i class="ion-mall-notice"></i>亲，此宝贝由该店铺提供哦！</div>
+        </div>
+      </div>
+      <!--
+      /*
+      * on sale hide
+      */
+        <div class="item row-wrap on-sale">
+      <div class="row row-no-padding">
+        <div class="col col-25">店铺优惠券</div>
         <div class="col">
-          <h2 class="txt-normal" ng-non-bindable="productInfo.name">
-          </h2>
+          <span class="sale-tag sale-1">
+            <span>5元通用</span>
+          </span>
+          <span class="sale-tag sale-2">
+            <span>199减10</span>
+          </span>
+          <span class="sale-tag sale-3">
+            <span>299减50</span>
+          </span>
         </div>
-        <!--<div class="col col-15 col-center"><a href="" class="add-to-favorite"><i class="ion-ios-heart"></i></a></div>-->
+      </div>
+      <div class="row row-no-padding">
+        <div class="col col-25">限时特惠</div>
+        <div class="col">剩余4天21小时46分21秒</div>
+      </div>
+      <div class="row row-no-padding">
+        <div class="col col-25">店铺优惠</div>
+        <div class="col">满99元，享包邮</div>
+      </div>
+      <div class="row row-no-padding">
+        <div class="col col-25">可享优惠</div>
+        <div class="col">积分抵2.00元 /首单支付返5元现金/收件返利/好评返现3元</div>
+      </div>
+      </div>
+      -->
+    </div>
+
+
+    <div class="more-product-detail">
+      <div class="title-line">
+        <hr/>
+        <span class="title-cont">继续拖动，查看图文详情</span>
       </div>
 
-      <div class="row row-no-padding row-price">
-        <div class="col" ng-if="multiple"><span class="price-txt">￥{{ productInfo.price_range.min_sell_price + '-' + productInfo.price_range.max_sell_price}}</span>
-          <span class="tag-by">包邮</span></div>
-        <div class="col" ng-if="!multiple"><span class="price-txt">￥{{ productInfo.sell_price}}</span> <span
-            class="tag-by">包邮</span></div>
-      </div>
+      <ion-infinite-scroll ng-if="moreHide" immediate-check ="false" on-infinite="loadMoreData()"></ion-infinite-scroll>
+      <tabs ng-if="!moreHide">
+        <pane title="图文详情" class="active">
+          <div class="item-detail item text-and-img" bindonce="productInfo">
+            <div class="text-and-img-wrap" bo-html="productInfo.content"></div>
+            <!--<div ng-repeat="image in productInfo.content2 track by $index" class="lazy-bg">-->
+              <!--<img ng-src='{{ image }}' />-->
+            <!--</div>-->
 
-      <div class="row row-no-padding row-pro-count">
-        <div class="col" ng-if="multiple"><span class="o-price">￥{{ productInfo.market_price}}</span> <span>{{ productInfo.price_range.min_sell_price/productInfo.price_range.min_market_price*10 }}折</span>
-        </div>
-        <div class="col" ng-if="!multiple"><span class="o-price">￥{{ productInfo.market_price}}</span> <span>{{ productInfo.sell_price/productInfo.market_price*10 }}折</span>
-        </div>
-        <div class="col">{{productInfo.sale}}人已买</div>
-      </div>
+          </div>
+        </pane>
+        <pane title="商品信息">
+          <div class="item-detail item item-detail-info">
+            <ul>
+              <li bindonce ng-repeat="attr in productInfo.attribute_list track by $index">
+                <div class="row row-no-padding">
+                  <div class="col col-25" bo-bind="attr.name"></div>
+                  <div class="col" bo-bind="attr.attribute_value"></div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </pane>
+        <pane title="评价({{ productInfo.comments }})">
 
+          <div class="list list-grade" ng-if="comments.list.length > 0">
+            <div class="item item-avatar-left" ng-repeat="comment in comments.list track by $index">
+              <div class="item-image">
+                <img ng-src="{{ comment.avatar }}" alt=""/>
+              </div>
+              <div class="row row-no-padding grade-head">
+                <div class="col col-66">
+                  <span class="positive" bo-bind="comment.username"></span>
+                </div>
+                <div class="col">
+                  <i class="ion-ios-star" ng-repeat="n in [] | range:comment.point"></i><i class="ion-ios-star-half" ng-if="isHalf(comment.point)"></i><i class="ion-ios-star dark" ng-show="5-comment.point" ng-repeat="n in [] | range:5-comment.point"></i>
+                  <!--<i class="ion-ios-star-half"></i>-->
+                </div>
+              </div>
+
+              <p class="txt-normal grade-content" ng-if="comment.point>=3">
+                {{ comment.contents?comment.contents:'好评' }}
+              </p>
+              <p class="txt-normal grade-content" ng-if="comment.point<3">
+                {{ comment.contents?comment.contents:'有待改进' }}
+              </p>
+
+              <div class="row row-no-padding grade-footer">
+                <div class="col">{{ comment.comment_time}}</div>
+              </div>
+            </div>
+
+            <div class="item item-more" ng-if="comments.more">
+              <a href="" ng-click="loadComment()">查看更多评价</a>
+            </div>
+          </div>
+          <div class="list list-grade" ng-if="comments.list.length == 0">
+            <div class="text-center">暂时还没有评价哦！</div>
+          </div>
+        </pane>
+        <pane title="推荐">
+          <div class="item-recommend">
+            <div class="rec-title clearfix" ng-if="recommendList.length>0">同店推荐 <a ng-href="{{ '#/mall/'+productInfo.seller.id}}" class="read-more">查看更多></a></div>
+            <ul class="grid-list">
+              <li class="grid-2-1" ng-repeat="goods in recommendList">
+                <a href="#/product/{{goods.id}}">
+                  <img ng-src="{{ goods.img }}" alt=""/>
+                  <div class="goods-des">
+                    <h2 bo-bind="goods.name"></h2>
+                    <span class="sell-price" bo-bind="goods.sell_price"></span>
+                    <span class="origin-price" bo-bind="goods.market_price"></span>
+                  </div>
+                </a>
+              </li>
+            </ul>
+            <div class="rec-title clearfix" ng-if="recommendList.length>0">猜你喜欢</div>
+            <ul class="grid-list">
+              <li class="grid-2-1" ng-repeat="goods in guessList">
+                <a href="#/product/{{goods.id}}">
+                  <img ng-src="{{ goods.img }}" alt=""/>
+                  <div class="goods-des">
+                    <h2 bo-bind="goods.name"></h2>
+                    <span class="sell-price" bo-bind="goods.sell_price"></span>
+                    <span class="origin-price" bo-bind="goods.market_price"></span>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </pane>
+      </tabs>
     </div>
-    <!--
-    /*
-    * on sale hide
-    */
-      <div class="item row-wrap on-sale">
-    <div class="row row-no-padding">
-      <div class="col col-25">店铺优惠券</div>
-      <div class="col">
-        <span class="sale-tag sale-1">
-          <span>5元通用</span>
-        </span>
-        <span class="sale-tag sale-2">
-          <span>199减10</span>
-        </span>
-        <span class="sale-tag sale-3">
-          <span>299减50</span>
-        </span>
-      </div>
+  </ion-content>
+
+  <!-- 加入购物车 -->
+  <div class="quick-control row " ng-if="!productInfo.regiment">
+    <div class="col col-33">
+      <a ng-click="contactQQ()" class="button button-icon ion-chatbubble-working" ></a>
+      <!--<a href="#/mall/connect/{{productInfo.seller_id}}" class="button button-icon ion-chatbubble-working" ></a>-->
+      <button class="button button-icon ion-android-share-alt" ng-click="showShare()"></button>
     </div>
-    <div class="row row-no-padding">
-      <div class="col col-25">限时特惠</div>
-      <div class="col">剩余4天21小时46分21秒</div>
+    <div class="col col-67">
+      <button class="button button-outline button-positive" ng-click="addCart()">加入购物车</button>
+      <button class="button button-positive" ng-click="checkNow()">立即购买</button>
     </div>
-    <div class="row row-no-padding">
-      <div class="col col-25">店铺优惠</div>
-      <div class="col">满99元，享包邮</div>
-    </div>
-    <div class="row row-no-padding">
-      <div class="col col-25">可享优惠</div>
-      <div class="col">积分抵2.00元 /首单支付返5元现金/收件返利/好评返现3元</div>
-    </div>
-    </div>
-    -->
   </div>
-  <div class="more-product-detail">
-    <div class="title-line">
-      <hr/>
-      <span class="title-cont">继续拖动，查看图文详情</span>
+  <div class="quick-control row row-no-padding group-tools" ng-if="productInfo.regiment" ng-switch="productInfo.regiment.success">
+    <div class="col col-67" ng-switch-when="false">
+      还有{{productInfo.regiment.store_nums - productInfo.regiment.sum_count}}人即可满团享优惠
     </div>
-
-    <tabs>
-      <pane title="图文详情">
-        <div class="item-detail" ng-bind-html="productInfo.content"></div>
-      </pane>
-      <pane title="商品信息">
-        <div class="item-detail item-detail-info">
-        </div>
-      </pane>
-    </tabs>
+    <div class="col col-67" ng-switch-when="true">
+      人数已达标，团购价去购买
+    </div>
+    <div class="col col-33">
+      <button class="button button-positive button-group-now" ng-click="checkNow()">我要参团</button>
+    </div>
   </div>
 </div>
 
-<!-- 加入购物车 -->
-<div class="quick-control row">
-  <div class="col col-33">
-    <button class="button button-icon ion-chatbubble-working"></button>
-    <button class="button button-icon ion-android-share-alt" ng-click="showShare()"></button>
-  </div>
-  <div class="col col-67">
-    <button class="button button-outline button-positive" ng-click="addCart()">加入购物车</button>
-    <button class="button button-positive" ng-click="checkNow()">立即购买</button>
-  </div>
-</div>

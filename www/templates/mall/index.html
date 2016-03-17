@@ -1,0 +1,59 @@
+<div class="nav-bar-block" nav-bar="active">
+  <ion-header-bar align-title="center" class="bar bar-header disable-user-behavior">
+    <button ng-click="goStateBack()" class="button back-button buttons  button-clear header-item"><i
+        class="icon ion-ios-arrow-left"></i>
+    </button>
+    <div class="title title-center header-item">{{ mall.true_name }}</div>
+  </ion-header-bar>
+</div>
+
+<ion-content overflow-scroll="true">
+
+  <div class="item mall-info" bindonce="mall">
+    <div class="mall-banner">
+      <img ng-src="{{ mall.banner_img || 'img/mall/banner.jpg'}}" alt=""/>
+    </div>
+    <div class="mall-head">
+      <h2><i class="ion-bag"></i><span bo-bind="mall.true_name"></span></h2>
+      <div class="row row-no-padding mall-grade">
+        <div class="col">描述相符:<span class="positive">{{ mall.quality_point}}分</span></div>
+        <div class="col">服务态度:<span class="positive">{{ mall.service_point}}分</span></div>
+        <div class="col">发货速度:<span class="positive">{{ mall.speed_point}}分</span></div>
+      </div>
+    </div>
+
+    <div class="row ">
+      <div class="col">
+        <i class="ion-mall-check"></i>保证金已缴纳
+      </div>
+      <div class="col">
+        <i class="ion-mall-check"></i>商品已验货
+      </div>
+    </div>
+  </div>
+  <div class="list mall-products">
+    <div class="item item-thumbnail-left" ng-repeat="goods in mall.goods_list" bindonce="mall.goods_list">
+      <i class="group-icon" ng-if="goods.is_regiment"></i>
+      <a href="#/product/{{goods.id}}">
+        <div class="item-image">
+          <img ng-src="{{ goods.img }}" alt=""/>
+        </div>
+
+        <div class="goods-des">
+          <h2 bo-bind="goods.name" class="txt-normal"></h2>
+          <div class="price-wrapper">
+            <span class="sell-price" bo-bind="'￥'+goods.sell_price"></span>
+            <span class="origin-price" bo-bind="'￥'+goods.market_price"></span>
+            <span class="by">包邮</span>
+          </div>
+          <div class="sell-info">
+            <span class="sale-num" bo-bind="'已售'+goods.sale+(goods.unit?goods.unit:'件')"></span>
+            <span class="discount" bo-bind="goods.discount+'折'"></span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+</ion-content>
+

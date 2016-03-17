@@ -1,67 +1,68 @@
 angular.module('xgStore.controllers')
-  .controller('refundApplyCtrl', function ($scope, $stateParams, $ionicLoading, $rootScope, xgApi, xgUser, $ionicPopup, $ionicHistory) {
+  .controller('refundApplyCtrl', function ($scope, $stateParams, $ionicLoading, $rootScope, xgApi, xgUser, $ionicPopup, $ionicHistory, $state) {
 
-    $scope.order_id = $stateParams.order_id;
-    $scope.order_goods_id = $stateParams.order_goods_id;
-    $scope.form = {};
-    $scope.form.content = "";
+    var order_id = $stateParams.order_id,
+      order_goods_id = $stateParams.order_goods_id;
 
-
-    // 全额退款
-    $scope.refundAll = function () {
-      submitRefundApply(0)
-    }
-
-    // 部分退款
-    $scope.refundPart = function () {
-
-      var refundInputPopup = $ionicPopup.prompt({
-        title: '请输入退款金额并点击确定',
-        subTitle: '(输入金额不得超过实付金额哦)',
-        cssClass: 'refund-input-popup',
-        inputType: 'text',
-        cancelText: '取消',
-        cancelType: 'button button-outline button-dark',
-        okText: '确定',
-        okType: 'button button-outline button-positive',
+    $scope.form = {
+      order_id : order_id,
+      order_goods_id : order_goods_id,
+      content : ''
+    };
+    $scope.$on('$ionicView.beforeEnter', function(){
+      $scope.doRefresh();
+    });
+    $scope.doRefresh = function (){
+      xgUser.getSessionId().then(function () {
+        return xgApi.requestApi("/api/order/detail", {order_id : order_id});
+      }).then(function (result) {
+        angular.forEach(result.order_goods_list,function(v){
+          if(order_goods_id == v.id){
+            $scope.refundGood = v;
+          }
+        });
       });
+    };
 
-      refundInputPopup.then(function(res) {
-        if (res == undefined) {
-          return;
-        }
+    $scope.refundNow = function(){
 
-        var amount = parseFloat(res);
-        if(isNaN(amount) || amount <= 0){
-          alert('请输入有效金额');
-          return;
-        }
-        submitRefundApply(amount)
-      });
-    }
+      //退款类型判断
+      if($scope.refundGood.is_send == 1 && isNaN($scope.form.type)){
+        $ionicLoading.show({ template: '请选择退款类型', noBackdrop: true, duration: 1000 });
+        return false;
+      }
+      // 判断金额
+      if(isNaN($scope.form.amount) || $scope.form.amount <= 0){
+        $ionicLoading.show({ template: '请输入有效退款金额', noBackdrop: true, duration: 1000 });
+        return false;
+      }
+      // 判断退款原因
+      if($scope.form.content.length == 0){
+        $ionicLoading.show({ template: '请简单描述下退款原因', noBackdrop: true, duration: 1000 });
+        return false;
+      }
+
+      submitRefundApply();
+    };
 
     // 提交退款申请
-    var submitRefundApply = function (amount) {
+    var submitRefundApply = function () {
       xgUser.getSessionId().then(function () {
-        return xgApi.requestApi("/api/refund/apply", {
-          order_id: $scope.order_id,
-          order_goods_id: $scope.order_goods_id,
-          amount: amount,
-          content: $scope.form.content
-        })
+        console.log($scope.form);
+        return xgApi.requestApi("/api/refund/apply",  $scope.form)
       }).then(function (result) {
-        popupResult(result.amount);
+        popupResult();
       }, function (message) {
         $ionicLoading.show({ template: message, noBackdrop: true, duration: 1000 })
       })
     }
 
     // 显示返回结果
-    var popupResult = function (amount) {
+    var popupResult = function () {
 
       var refundResultPopup = $ionicPopup.alert({
-        title: '到账金额 ' + amount + ' 元',
-        subTitle: '亲, 您的退款已申请, 等待卖家处理!',
+        title: '亲, 您的退款已申请, 等待卖家处理!',
+        //subTitle: '亲, 您的退款已申请, 等待卖家处理!',
         cssClass: 'refund-result-popup',
         inputType: 'text',
         okText: '返回订单详情',
@@ -69,7 +70,7 @@ angular.module('xgStore.controllers')
       });
       refundResultPopup.then(function(res) {
         var backView = $ionicHistory.backView();
-        if (backView.url.indexOf("/app/refund/detail") == -1) {
+        if (backView.url.indexOf("/refund/detail") == -1) {
           $ionicHistory.goBack();
         } else {
           $ionicHistory.goBack(-2);

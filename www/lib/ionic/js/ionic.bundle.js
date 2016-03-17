@@ -42175,6 +42175,7 @@ function($rootScope, $compile, $animate, $timeout, $ionicTemplateLoader, $ionicP
 
     for (var x = 0; x < scope.buttons.length; x++) {
       textForIcon(scope.buttons[x].text);
+
     }
     textForIcon(scope.cancelText);
     textForIcon(scope.destructiveText);
@@ -50368,7 +50369,7 @@ IonicModule
                   '<div class="action-sheet" ng-class="{\'action-sheet-has-icons\': $actionSheetHasIcon}">' +
                     '<div class="action-sheet-group action-sheet-options">' +
                       '<div class="action-sheet-title" ng-if="titleText" ng-bind-html="titleText"></div>' +
-                      '<button class="button action-sheet-option" ng-click="buttonClicked($index)" ng-repeat="b in buttons" ng-bind-html="b.text"></button>' +
+                      '<button class="button action-sheet-option" ng-click="buttonClicked($index)" ng-class="{\'sheet-selected\':b.selected}" ng-repeat="b in buttons" ng-bind-html="b.text"></button>' +
                       '<button class="button destructive action-sheet-destructive" ng-if="destructiveText" ng-click="destructiveButtonClicked()" ng-bind-html="destructiveText"></button>' +
                     '</div>' +
                     '<div class="action-sheet-group action-sheet-cancel" ng-if="cancelText">' +

@@ -1,15 +1,15 @@
 <div class="nav-bar-block">
   <ion-header-bar align-title="center" class="bar bar-header disable-user-behavior">
-    <button ng-click="$ionicGoBack()" class="button back-button buttons button-clear header-item"><i
+    <button ng-click="goStateBack()" class="button back-button buttons button-clear header-item"><i
         class="icon ion-ios-arrow-left"></i>
     </button>
-    <div class="title title-center header-item" style="left: 45px; right: 45px;">确认订单</div>
+    <div class="title title-center header-item" >确认订单</div>
   </ion-header-bar>
 </div>
 <div class="scroll-content has-header ionic-scroll overflow-scroll order-now">
-  <div class="list order-address" ng-if="defaultAddress == null">
+  <div class="list order-address" ng-if="defaultAddress.address_id == 0">
     <div class="sw-bg"></div>
-    <a class="item item-icon-left" href="#/address/list">
+    <a class="item item-icon-left" ng-click="getAddress()">
       <i class="icon ion-ios-location-outline"></i>
 
       <div class="add-address-now">请添加收货地址</div>
@@ -17,16 +17,16 @@
 
     <div class="sw-bg"></div>
   </div>
-  <div class="list order-address" ng-if="defaultAddress !== null">
+  <div class="list order-address" ng-if="defaultAddress.address_id !== 0">
     <div class="sw-bg"></div>
     <a class="item address-default item-icon-left item-icon-right" ng-click="getAddress()">
       <i class="icon ion-ios-location-outline"></i>
 
       <div class="row row-no-padding">
-        <div class="col">收货人：{{ defaultAddress.accept_name }}</div>
-        <div class="col">{{ defaultAddress.mobile}}</div>
+        <p class="col" ng-bind="'收货人：'+defaultAddress.accept_name"></p>
+        <div class="col" ng-bind="defaultAddress.mobile"></div>
       </div>
-      <p class="txt-normal">收货地址：{{ defaultAddress.address }}</p>
+      <p class="txt-normal" ng-bind="'收货地址：'+ defaultAddress.address_detail"></p>
       <i class="icon ion-ios-arrow-right"></i>
     </a>
 
@@ -35,20 +35,24 @@
 
   <div class="list list-check" ng-repeat="(k,stores) in CartStructure">
     <div class="item item-top">
-      <i class="ion-mall-hover"></i>{{ stores[0].seller.true_name}}
+      <i class="ion-bag"></i>{{ stores[0].seller.true_name}}
     </div>
 
     <div class="item item-thumbnail-left" ng-repeat="goods in stores">
       <div class="item-image"><img alt="" ng-src="{{ goods.goods.img}}"/></div>
       <div class="">
-        <h2 class="txt-normal"><a href="#/app/product/{{goods.goods.id}}">{{ goods.goods.name}}</a></h2>
+        <h2 class="txt-normal"><a ng-click="gotoProductDetail(goods.goods.id)" href="">{{ goods.goods.name}}</a></h2>
 
         <p>{{ goods.goods.product_list[goods.cart.product_id].spec_str }}</p>
 
-        <div class="row row-no-padding row-price">
+        <div class="row row-no-padding row-price" ng-if="goods.is_valid">
           <div class="col col-66"><span class="price-txt">￥{{ goods.goods.sell_price}}</span>
           </div>
           <div class="col col-34 text-right">x{{ goods.cart.quantity }}{{ goods.goods.unit}}</div>
+        </div>
+
+        <div class="invalid" ng-if="goods.is_valid == 0">
+          <p><span>已失效</span> 此宝贝已不能购买!</p>
         </div>
       </div>
     </div>
@@ -57,7 +61,7 @@
       <div class="text-right">共{{ xgCart.getItems(k)}}件商品 合计：<span class="positive">￥{{ xgCart.getStoreTotal(k)}}</span>
       </div>
       <textarea name="postscript.{{ k }}" ng-model="postscript[k]" style="width: 100%;padding: 10px;" id="message{{k}}"
-                rows="3"></textarea>
+                rows="3" placeholder="给卖家留言备注，最多100个字节"></textarea>
     </div>
   </div>
 
@@ -81,10 +85,10 @@
   <div class="list cart-list">
     <div class="item item-total row">
       <div class="col"></div>
-      <div class="col col-50 col-total">合计: <span class="positive">￥{{ getPayAmount()}}</span>
+      <div class="col col-50 col-total">合计: <span class="positive">￥{{ payAmount }}</span>
       </div>
       <div class="col col-33">
-        <button class="button button-full button-positive" ng-click="payment()">去支付</button>
+        <button class="button button-full button-positive" ng-disabled="paymentState" ng-click="payment()">去支付</button>
       </div>
 
     </div>

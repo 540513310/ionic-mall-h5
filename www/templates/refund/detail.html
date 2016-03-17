@@ -1,69 +1,153 @@
-<ion-view view-title="退款详情">
-  <ion-content>
-    <div class="refund-detail">
+<div class="nav-bar-block">
+  <ion-header-bar align-title="center" class="bar bar-header disable-user-behavior">
+    <button ng-click="$ionicGoBack()" class="button back-button buttons button-clear header-item"><i
+        class="icon ion-ios-arrow-left"></i>
+    </button>
+    <div class="title title-center header-item">{{ data.pay_status == 5 ? '请退货' : '退款详情'}}</div>
+  </ion-header-bar>
+</div>
+<div class="scroll-content has-header ionic-scroll overflow-scroll">
+  <div class="refund-detail">
 
-      <div class="status-applying" ng-if="data.pay_status == 0">
-        <div class="title"><p>等待商家处理退款申请</p></div>
-        <div class="content">
-          <p><span>如果商家同意 : </span>申请将达成并退款至您的付款账户(支付宝, 微信)</p>
-          <p><span>如果商家发货 : </span>申请将关闭, 关闭后您可再次发起退款</p>
-          <p><span>如果商家未处理 : </span>超过 7 天则申请达成并为您退款</p>
-        </div>
+    <div class="status-applying has-refund" ng-if="data.pay_status == 0">
+      <div class="title"><p>等待商家处理退款申请</p></div>
+      <div class="content">
+        <p><span>如果商家同意 : </span>申请将达成并退款至您的付款账户(支付宝)</p>
+        <p><span>如果商家发货 : </span>申请将关闭, 关闭后您可再次发起退款</p>
+        <p ng-if="order_goods.is_send == 1 &&  data.type == 0"><span>如果商家未处理 : </span>超过 7 天则申请达成并为您退款</p>
+        <p ng-if="order_goods.is_send == 0"><span>如果商家未处理 : </span>超过 3 天则申请达成并为您退款</p>
       </div>
-
-      <div class="status-reject" ng-if="data.pay_status == 1">
-        <div class="title"><p>退款已关闭 (卖家驳回退款请求)</p></div>
-        <div class="content">
-          <p><span>关闭理由 : </span>{{ data.dispose_idea }}</p>
-          <p><span>关闭时间 : </span>{{ data.dispose_time }}</p>
-        </div>
+      <div class="button-wrap">
+        <button class="button button-block button-cancel" ng-click="cancelRefund()">取消退款</button>
       </div>
-
-      <div class="status-success" ng-if="data.pay_status == 3">
-        <div class="title"><p>退款已同意</p></div>
-        <div class="content">
-          <p><span>退款金额 : </span>{{ data.amount }} 元</p>
-          <p><span>退款时间 : </span>{{ data.dispose_time }}</p>
-        </div>
-      </div>
-
-      <div class="status-refunded" ng-if="data.pay_status == 2">
-        <div class="title"><p>退款已成功</p></div>
-        <div class="content">
-          <p><span>退款金额 : </span>{{ data.amount }} 元</p>
-          <p><span>退款时间 : </span>{{ data.dispose_time }}</p>
-        </div>
-      </div>
-
-      <div class="row contact-seller">
-        <div class="col col-50 name">{{ order.seller.true_name }}</div>
-        <div class="col col-50"></div>
-      </div>
-
-      <div class="list detail">
-        <div class="item row">
-          <div class="col col-25">退款类型: </div>
-          <div class="col col-75" ng-if="data.origin_price == data.amount "><p>全额退款</p></div>
-          <div class="col col-75" ng-if="data.origin_price != data.amount "><p>沟通金额退款</p></div>
-        </div>
-        <div class="item row">
-          <div class="col col-25">退款金额: </div>
-          <div class="col col-75"><p>{{ data.amount }} 元</p></div>
-        </div>
-        <div class="item row">
-          <div class="col col-25">退款原因: </div>
-          <div class="col col-75"><p>{{ data.content }}</p></div>
-        </div>
-      </div>
-
     </div>
-  </ion-content>
+
+    <div class="status-reject has-refund" ng-if="data.pay_status == 1">
+      <div class="title"><p>退款已关闭 (卖家驳回退款请求)</p></div>
+      <div class="content">
+        <p><span>关闭理由 : </span>{{ data.dispose_idea }}</p>
+        <p><span>关闭时间 : </span>{{ data.dispose_time }}</p>
+      </div>
+    </div>
+
+    <div class="status-success" ng-if="data.pay_status == 3">
+      <div class="title"><p>卖家已同意您的退款申请，待平台处理即可退款成功</p></div>
+    </div>
+
+    <div class="status-refunded" ng-if="data.pay_status == 2">
+      <div class="title"><p>退款已成功</p></div>
+      <div class="content">
+        <p><span>退款金额 : </span>{{ data.amount }} 元</p>
+        <p><span>退款时间 : </span>{{ data.dispose_time }}</p>
+      </div>
+    </div>
+
+    <div class="status-success" ng-if="data.pay_status == 6">
+      <div class="title"><p>等待卖家接收并核实您的退货包裹</p></div>
+      <div class="content">
+        <p><span>如果商家同意 : </span>申请将达成并退款至您的付款账户(支付宝)</p>
+        <p><span>如果商家发货 : </span>申请将关闭, 关闭后您可再次发起退款</p>
+        <p><span>如果商家未处理 : </span>超过 10 天则申请达成并为您退款</p>
+      </div>
+    </div>
+
+    <div class="explain" ng-if="data.pay_status == 5">
+      <div class="divide-line">
+        <div></div>
+        <span><i><b>退款说明</b></i></span>
+      </div>
+      <p>卖家已同意您的退款申请，请按照卖家给的退货地址，将货物退回。待卖家收到退货核实后会处理退款</p>
+    </div>
+
+    <div class="row contact-seller">
+      <div class="col col-50 name">{{ order.seller.true_name }}</div>
+      <div class="col col-50">
+        <button class="button" ng-click="contactQQ()"><i class="ion-chatbubble-working"></i>联系卖家</button>
+      </div>
+    </div>
+
+    <div class="list list-refund-detail">
+      <div class="item row">
+        <div class="col col-25">退款类型:</div>
+        <div class="col col-75" ng-bind="data.type == 1 ? '退款并退货': '仅退款（不退货）'"></div>
+      </div>
+      <div class="item row">
+        <div class="col col-25">退款金额:</div>
+        <div class="col col-75"><p>{{ data.amount }} 元</p></div>
+      </div>
+      <div class="item row">
+        <div class="col col-25">退款原因:</div>
+        <div class="col col-75"><p>{{ data.content }}</p></div>
+      </div>
+    </div>
+    <div class="refund-next" ng-if="data.type == 1">
+      <div class="refund-content" ng-if="data.pay_status == 2 || data.pay_status == 3 || data.pay_status == 6">
+        <div>快递公司: {{ data.logistics_company}}</div>
+        <div>快递单号: {{ data.logistics_no}}</div>
+      </div>
+
+
+      <div class="refund-info" ng-if="data.refund_address">
+        <!--<div class="" ng-if="refundPlease">物流信息没有找到</div>-->
+        <!--<div class="" ng-switch-when="true">-->
+          <div class="address-item">
+            <span class="title">退款地址：</span>
+            {{data.refund_address }}
+          </div>
+          <div class="address-item">
+            <span class="title">联系电话：</span>
+            {{data.phone}}
+          </div>
+          <div class="address-item">
+            <span class="title">收件人：</span>
+            {{data.recipients}}
+          </div>
+          <div class="address-item">
+            <span class="title">邮编：</span>
+            {{data.postcode}}
+          </div>
+        <!--</div>-->
+      </div>
+
+      <div class="refund-tip" ng-if="data.message">
+        {{data.message}}
+      </div>
+
+      <div class="refund-ship" ng-if="data.pay_status == 5">
+        <div class="row row-company" ng-click="showFreight()">
+          <div class="col title">
+            请选择物流公司:
+          </div>
+          <div class="col">
+            <span class="shipment">{{ selectedFreight.text || refundPlease.freight_company[0].text }}</span>
+            <i class="ion-ios-arrow-right"></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col title">
+            请填写物流单号:
+          </div>
+          <div class="col">
+            <input type="text" ng-model="logistics.no" placeholder="请输入您的运单号"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="refund-now" ng-if="data.pay_status == 5">
+        <button class="button button-block button-positive" ng-click="submitRefund()">确定</button>
+      </div>
+    </div>
+    
+
+
+  </div>
 
 
   <div class="bar bar-footer order-detail-footer" ng-if="data.pay_status == 1">
     <div class="title">
-      <a ng-href="#/app/refund/apply/{{ order_goods.order_id }}/{{ order_goods.id }}" class="button button-outline button-positive">再次申请退款</a>
+      <a ng-href="#/refund/apply/{{ order_goods.order_id }}/{{ order_goods.id }}"
+         class="button button-outline button-positive">再次申请退款</a>
     </div>
   </div>
+</div>
 
-</ion-view>

@@ -1,11 +1,8 @@
 
 angular.module('xgStore.controllers')
-  .controller('addressEditCtrl', function ($scope, $stateParams, $ionicLoading, $rootScope, $location, xgApi, xgUser) {
+  .controller('addressEditCtrl', function ($scope, $stateParams, $ionicLoading, $rootScope, $location, xgApi, xgUser, $ionicModal, $timeout) {
     $scope.id = $stateParams.id;
     $scope.address = {};
-    $scope.province_list = [];
-    $scope.city_list = [];
-    $scope.area_list = [];
 
     $scope.$on('$ionicView.beforeEnter', function(){
       $rootScope.showBtns.addressSave = true;
@@ -15,42 +12,16 @@ angular.module('xgStore.controllers')
       $rootScope.showBtns.addressSave = false;
     });
 
-    // 取得区域信息
-    $scope.getArea = function(parent_id, type, isUserAction) {
-
-      xgApi.requestApi("/api/area/find", {parent_id: parent_id}).then(function (result) {
-        if (type == 'province') {
-          $scope.province_list = result;
-          if (isUserAction) {
-            $scope.city_list = [];
-            $scope.area_list = [];
-          }
-        }
-        if (type == 'city') {
-          $scope.city_list = result;
-          if (isUserAction) {
-            $scope.area_list = [];
-          }
-        }
-        if (type == 'area') {
-          $scope.area_list = result;
-        }
-      });
-    }
-
     // 获取用户信息
     xgApi.requestApi("/api/user/detail", {}).then(function (result) {
 
       $scope.userInfo = result;
-      $scope.getArea(0, 'province', false);
 
       var address_list = $scope.userInfo.address_list;
       angular.forEach(address_list, function (obj) {
         if (obj.address_id == $scope.id) {
           $scope.address = obj;
-
-          $scope.getArea($scope.address.province, 'city', false);
-          $scope.getArea($scope.address.city, 'area', false);
+          $scope.address.default = $scope.address.default == 1 ? true : false;
         }
       });
     });
@@ -69,5 +40,20 @@ angular.module('xgStore.controllers')
         $ionicLoading.show({ template: message, noBackdrop: true, duration: 1000 })
       });
     }
+
+    $scope.popupChooseArea = function () {
+
+      // 显示选择区域
+      $ionicModal.fromTemplateUrl('templates/address/area.html', {
+        scope: $scope
+      }).then(function (modal) {
+        $scope.modal = modal;
+
+        $timeout(function () {
+          $scope.modal.show();
+        }, 50);
+      });
+    }
+
 
   })

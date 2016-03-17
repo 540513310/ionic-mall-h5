@@ -741,7 +741,11 @@
 .#{$ionicons-prefix}mall-hover:before,
 .#{$ionicons-prefix}wechat:before,
 .#{$ionicons-prefix}weibo:before,
-.#{$ionicons-prefix}weixin:before
+.#{$ionicons-prefix}weixin:before,
+.#{$ionicons-prefix}mall-check:before,
+.#{$ionicons-prefix}mall-notice:before,
+.#{$ionicons-prefix}trace:before,
+.#{$ionicons-prefix}commented:before
 {
   @extend .ion;
 }
@@ -1486,3 +1490,14 @@
 .#{$ionicons-prefix}wechat:before { content: $ionicon-var-wechat; }
 .#{$ionicons-prefix}weibo:before { content: $ionicon-var-weibo; }
 .#{$ionicons-prefix}weixin:before { content: $ionicon-var-weixin; }
+
+.#{$ionicons-prefix}messages:before { content: $ionicon-var-messages; }
+.#{$ionicons-prefix}qa1:before { content: $ionicon-var-qa1; }
+.#{$ionicons-prefix}qa2:before { content: $ionicon-var-qa2; }
+.#{$ionicons-prefix}qa3:before { content: $ionicon-var-qa3; }
+.#{$ionicons-prefix}qa4:before { content: $ionicon-var-qa4; }
+.#{$ionicons-prefix}qa5:before { content: $ionicon-var-qa5; }
+.#{$ionicons-prefix}mall-check:before { content: $ionicon-var-mall-check; }
+.#{$ionicons-prefix}mall-notice:before { content: $ionicon-var-mall-notice; }
+.#{$ionicons-prefix}trace:before { content: $ionicon-var-trace; }
+.#{$ionicons-prefix}commented:before { content: $ionicon-var-commented; }

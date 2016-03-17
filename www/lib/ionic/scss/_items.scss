@@ -10,12 +10,13 @@
   z-index: $z-index-item; // Make sure the borders and stuff don't get hidden by children
   display: block;
 
-  margin: $item-border-width * -1;
+  margin: 0;
   padding: $item-padding;
 
   border-width: $item-border-width;
   border-style: solid;
   font-size: $item-font-size;
+  overflow: hidden;
 
   h2 {
     margin: 0 0 2px 0;

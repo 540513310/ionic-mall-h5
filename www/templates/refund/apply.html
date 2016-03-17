@@ -1,38 +1,77 @@
-<ion-view view-title="申请退款">
-  <ion-content>
-    <div class="refund-apply">
-      <div class="explain">
-        <h4>退款说明</h4>
-        <p>如因商品质量问题、商品缺货、取消订单、配送异常等原因，您的订单需要进行退款，那么请您联系在线客服，告知订单编号及退款原因，申请退款，需退回的请寄回商品，在收到商品后，我们会及时为您办理退款。</p>
+<div class="nav-bar-block">
+  <ion-header-bar align-title="center" class="bar bar-header disable-user-behavior">
+    <button ng-click="$ionicGoBack()" class="button back-button buttons button-clear header-item"><i
+        class="icon ion-ios-arrow-left"></i>
+    </button>
+    <div class="title title-center header-item">申请退款</div>
+  </ion-header-bar>
+</div>
+<div class="scroll-content has-header ionic-scroll overflow-scroll">
+  <div class="refund-apply">
+    <div class="explain">
+      <div class="divide-line">
+        <div></div>
+        <span><i><b>退款说明</b></i></span>
       </div>
 
-      <div class="list">
+      <p>如因商品质量问题、商品缺货、取消订单、配送异常等原因，您的订单需要进行退款，那么请您联系在线客服，告知订单编号及退款原因，申请退款，需退回的请寄回商品，在收到商品后，我们会及时为您办理退款。</p>
+    </div>
 
-        <div class="item item-divider">退款原因 :</div>
+    <div class="list">
 
-        <label class="item item-input">
-          <textarea placeholder="请填写退款原因" ng-model="form.content"></textarea>
+      <div ng-if="refundGood.is_send == 1">
+        <div class="item item-divider">退款类型 <i class="required">*</i></div>
+        <label class="item item-radio">
+          <input type="radio" name="apply_type" ng-model="form.type" value="1">
+          <div class="item-content">
+            退款并退货
+          </div>
+          <i class="radio-icon ion-ios-checkmark-empty"></i>
         </label>
-
-        <div class="item item-divider">申请退款金额 :</div>
-
-        <div class="item item-avatar item-icon-right" ng-click="refundAll()">
-          <img src="/img/refund/icon_all.png">
-          <h2>全额退款</h2>
-          <p>现金将退入支付账户</p>
-          <i class="icon ion-ios-arrow-right"></i>
-        </div>
-
-        <div class="item item-avatar item-icon-right" ng-click="refundPart()">
-          <img src="/img/refund/icon_part.png">
-          <h2>沟通申请退款</h2>
-          <p>请与卖家沟通后申请, 现金将退入支付账户</p>
-          <i class="icon ion-ios-arrow-right"></i>
-        </div>
-
+        <label class="item item-radio">
+          <input type="radio" name="apply_type" ng-model="form.type" value="0">
+          <div class="item-content">
+            仅退款（不退货）
+          </div>
+          <i class="radio-icon ion-ios-checkmark-empty"></i>
+        </label>
       </div>
+
+      <div class="item item-divider">申请退款金额 <i class="required">*</i></div>
+
+      <div class="item item-input">
+        <input type="number" ng-model="form.amount" placeholder="{{refundGood.real_price}}"/>
+      </div>
+
+      <div class="item item-divider">退款原因 <i class="required">*</i></div>
+
+      <label class="item item-input">
+        <textarea placeholder="请填写退款原因" ng-model="form.content"></textarea>
+      </label>
+
+      <button class="button button-block button-positive" ng-click="refundNow()">提交申请</button>
+
+      <!--<div class="item item-divider">申请退款金额 <i class="required">*</i></div>-->
+
+      <!--<div class="item item-avatar item-icon-right" ng-click="refundAll()">-->
+        <!--<img src="/img/refund/icon_all.png">-->
+
+        <!--<h2>全额退款</h2>-->
+
+        <!--<p>现金将退入支付账户</p>-->
+        <!--<i class="icon ion-ios-arrow-right"></i>-->
+      <!--</div>-->
+
+      <!--<div class="item item-avatar item-icon-right" ng-click="refundPart()">-->
+        <!--<img src="/img/refund/icon_part.png">-->
+
+        <!--<h2>沟通申请退款</h2>-->
+
+        <!--<p>请与卖家沟通后申请, 现金将退入支付账户</p>-->
+        <!--<i class="icon ion-ios-arrow-right"></i>-->
+      <!--</div>-->
 
     </div>
 
-  </ion-content>
-</ion-view>
+  </div>
+</div>

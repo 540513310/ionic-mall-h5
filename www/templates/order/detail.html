@@ -1,6 +1,12 @@
-<ion-view view-title="订单详情">
-  <ion-content>
-    <ion-refresher pulling-icon="ion-ios-arrow-thin-down" pulling-text="下拉刷新" on-refresh="doRefresh()"> </ion-refresher>
+<div class="nav-bar-block">
+  <ion-header-bar align-title="center" class="bar bar-header disable-user-behavior">
+    <button ng-click="goStateBack()" class="button back-button buttons button-clear header-item"><i
+        class="icon ion-ios-arrow-left"></i>
+    </button>
+    <div class="title title-center header-item">订单详情</div>
+  </ion-header-bar>
+</div>
+  <ion-content overflow-scroll="true">
     <div class="order-detail">
 
       <div class="status-tag"
@@ -13,7 +19,7 @@
       </div>
 
       <div class="list delivery-address-postscript">
-        <a class="item delivery" href="#/app/delivery/trace/{{ order.id }}" ng-if="order.lastDelivery" >
+        <a class="item delivery" href="#/delivery/trace/{{ order.id }}" ng-if="order.lastDelivery" >
           <div class="arrow">
             <h2>{{ order.lastDelivery.accept_station }}</h2>
             <p>{{ order.lastDelivery.accept_time }}</p>
@@ -21,44 +27,53 @@
         </a>
         <div class="item address" href="#">
           <div class="row">
-            <div class="col col-50">收货人: {{ order.accept_name }}</div>
+            <div class="col col-50"><h3>收货人: {{ order.accept_name }}</h3></div>
             <div class="col col-50 text-right">{{ order.mobile }}</div>
           </div>
           <p>收货地址: {{ order.address }}</p>
         </div>
-        <div class="item postscript" href="#">
+        <div class="item postscript" href="#" ng-if="order.postscript">
           <h2>买家留言</h2>
           <p>{{ order.postscript }}</p>
         </div>
       </div>
 
-      <div class="seller"><p>精品街特卖商城</p></div>
+      <div class="seller"><p>{{ order.seller.true_name }}</p></div>
 
       <div class="list goods-rows">
-        <div class="item item-thumbnail-left" ng-repeat="goods in order.order_goods_list">
+        <div class="item item-thumbnail-left" ng-repeat="goods in order.order_goods_list" ng-click="gotoProductDetail(goods.goods_id)">
           <img ng-src="{{ goods.img }}">
           <h2>{{ goods.goods_array.name }}</h2>
           <div class="row">
-            <div class="col col-50"><p>{{ goods.goods_array.value }}</p></div>
-            <div class="col col-50 price text-right"><p><span>¥ {{ goods.real_price }}</span> x{{ goods.goods_nums }}件</p></div>
+            <div class="invalid" ng-if="goods.is_valid == 0" class="col col-50">
+              <p><span>已失效</span> 此宝贝已不能购买!</p>
+            </div>
+            <div ng-if="goods.is_valid == 1" class="col col-50"><p>{{ goods.goods_array.value }}</p></div>
+            <div ng-if="goods.is_valid == 1" class="col col-50 price text-right"><p><span>¥ {{ goods.real_price }}</span> x{{ goods.goods_nums }}件</p></div>
           </div>
           <div class="row">
             <div class="col clearfix">
-              <a ng-href="#/app/refund/apply/{{ order.id }}/{{ goods.id }}"
-                 ng-if="goods.refundment.pay_status == undefined"
+              <a ng-click="gotoRefundApply(order.id, goods.id, $event)"
+                 ng-if="goods.refundment.pay_status == undefined && order.pay_status != 0 || goods.refundment.pay_status == 4"
                  class="button button-outline button-positive">申请退款</a>
-              <a ng-href="#/app/refund/detail/{{ order.id }}/{{ goods.goods_id }}/{{ goods.product_id }}"
+              <a ng-click="gotoRefundDetail(order.id, goods.goods_id, goods.product_id, $event)"
                  ng-if="goods.refundment.pay_status == 0"
                  class="button button-outline button-positive">退款中</a>
-              <a ng-href="#/app/refund/detail/{{ order.id }}/{{ goods.goods_id }}/{{ goods.product_id }}"
+              <a ng-click="gotoRefundDetail(order.id, goods.goods_id, goods.product_id, $event)"
                  ng-if="goods.refundment.pay_status == 1"
                  class="button button-outline button-positive">拒绝退款</a>
-              <a ng-href="#/app/refund/detail/{{ order.id }}/{{ goods.goods_id }}/{{ goods.product_id }}"
+              <a ng-click="gotoRefundDetail(order.id, goods.goods_id, goods.product_id, $event)"
                  ng-if="goods.refundment.pay_status == 2"
                  class="button button-outline button-positive">已退款</a>
-              <a ng-href="#/app/refund/detail/{{ order.id }}/{{ goods.goods_id }}/{{ goods.product_id }}"
+              <a ng-click="gotoRefundDetail(order.id, goods.goods_id, goods.product_id, $event)"
                  ng-if="goods.refundment.pay_status == 3"
                  class="button button-outline button-positive">同意退款</a>
+              <a ng-click="gotoRefundDetail(order.id, goods.goods_id, goods.product_id, $event)"
+                 ng-if="goods.refundment.pay_status == 5"
+                 class="button button-outline button-positive">请退货</a>
+              <a ng-click="gotoRefundDetail(order.id, goods.goods_id, goods.product_id, $event)"
+                 ng-if="goods.refundment.pay_status == 6"
+                 class="button button-outline button-positive">等待商家处理</a>
             </div>
           </div>
         </div>
@@ -71,7 +86,10 @@
         </div>
         <div class="price-total row">
           <div class="col col-50">实付费 (含运费)</div>
-          <div class="col col-50 text-right">¥ {{ order.total_goods_price }}</div>
+          <div class="col col-50 text-right">¥ {{ order.total_goods_price.toFixed(2) }}</div>
+        </div>
+        <div class="contact-seller">
+          <button class="button" ng-click="contactQQ()"><i class="ion-chatbubble-working"></i>联系卖家</button>
         </div>
       </div>
 
@@ -81,15 +99,31 @@
         <p ng-if="order.pay_time">付款时间: {{ order.pay_time }}</p>
       </div>
 
+      <div class="group-status row" ng-if="order.regiment && order.status !== 6">
+        <div class="col col1">
+          <a class="share-group" ng-click="showShare()">
+            <img src="img/order/share_gp.png" alt=""/>
+          </a>
+        </div>
+        <div class="col col2" ng-if="!order.regiment.success">
+          <h2>即将成团,请耐心等候!</h2>
+          <p>亲，商品满团才能发货<br/>快分享给好友一起来参团吧！</p>
+        </div>
+        <div class="col col2" ng-if="order.regiment.success">
+          <h2>恭喜您!拼团成功!</h2>
+          <p>商品满团后，24小时内<br/>商家会安排发货，请耐心等待！</p>
+        </div>
+      </div>
+
       <div style="height: 50px"></div>
     </div>
   </ion-content>
 
   <div class="bar bar-footer order-detail-footer">
     <div class="title">
-      <!-- 罗菲说返回个人中心 -->
-      <button ng-click="returnMobile()" class="button button-outline button-positive">返回个人中心</button>
+      <!-- 罗菲说返回 -->
+      <button ng-click="gotoPayment(order.id)" class="button button-outline button-positive" ng-if="displayPayBtn == true">去支付</button>
+      <button ng-click="returnMobile()" class="button button-outline button-positive" ng-if="displayPayBtn == false">返回</button>
     </div>
   </div>
 
-</ion-view>

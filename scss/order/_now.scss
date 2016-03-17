@@ -25,6 +25,10 @@
           font-size: 15px;
           margin-bottom: 6px;
           .col {
+            &:first-child {
+              color: #444;
+              font-size: 14px;
+            }
             &:last-child {
               text-align: right;
             }
@@ -116,7 +120,8 @@
       a{
         color: #666;
         text-decoration: none;
-        max-height: 30px;
+        max-height: 32px;
+        line-height: 15px;
         display: block;
       }
     }
@@ -128,6 +133,29 @@
         font-size: 14px;
       }
     }
+
+    .invalid {
+      h2 {
+        font-size: 14px;
+        max-height: 30px;
+        line-height: 15px;
+        text-decoration: none;
+        color: #666;
+        display: block;
+      }
+      p {
+        -webkit-text-size-adjust:none;
+        font-size: 12px;
+        span {
+          background-color: #aaaaaa;
+          padding: 2px 5px;
+          border-radius: 5px;
+          color: white;
+          font-size: 12px;
+        }
+      }
+    }
+
   }
 }
 

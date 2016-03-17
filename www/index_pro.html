@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta name="format-detection" content="telephone=no">
+    <title></title>
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above -->
+    <link href="css/ionic.app.min.css?rev=@@hash" rel="stylesheet">
+
+    <script src="lib/ponto.js?rev=@@hash"></script>
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.min.js?rev=@@hash"></script>
+    <script src="lib/lazy-image.js?rev=@@hash"></script>
+    <script src="lib/bindOnce.min.js?rev=@@hash"></script>
+    <script src="lib/ngIOS9UIWebViewPatch.js?rev=@@hash"></script>
+
+    <!-- production -->
+    <script src="dist/js/all.min.js?rev=@@hash"></script>
+
+    <script src="js/MobileToH5Request.js?rev=@@hash"></script>
+    <!-- 百度分析 -->
+    <script src="lib/angulartics/dist/angulartics.min.js?rev=@@hash"></script>
+    <script src="lib/angulartics/dist/angulartics-baidu.min.js?rev=@@hash"></script>
+  </head>
+
+  <body ng-app="xgStore">
+    <ion-nav-view ng-controller="AppCtrl"></ion-nav-view>
+  </body>
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?f7a9c4aa280d7c53826edec3d13def12";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+</html>
